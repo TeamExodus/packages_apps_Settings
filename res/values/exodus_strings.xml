@@ -18,6 +18,9 @@
     <!-- Categories -->
     <string name="support_packages">Support</string>
 
+    <!-- generic -->
+    <string name="ok">OK</string>
+
     <!-- SuperSU -->
     <string name="supersu_title">SuperSU</string>
     <string name="supersu_summary">Super user binary options</string>
