@@ -18,6 +18,7 @@ package com.android.settings.cyanogenmod;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -28,6 +29,7 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.Spannable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 
 import com.android.settings.R;
@@ -152,6 +154,17 @@ public class StatusBarSettings extends SettingsPreferenceFragment
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
+
+    @Override
+    public void onResume() {
+		super.onResume();
+        // Adjust clock position for RTL if necessary
+		Configuration config = getResources().getConfiguration();
+		if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+		    mStatusBarClock.setEntries(getActivity().getResources().getStringArray(R.array.status_bar_clock_style_entries_rtl));
+			mStatusBarClock.setSummary(mStatusBarClock.getEntry());
+		}
+	}
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
