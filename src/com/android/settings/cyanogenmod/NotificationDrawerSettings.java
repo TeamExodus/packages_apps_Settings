@@ -22,6 +22,8 @@ import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.cyanogenmod.qs.QSTiles;
 
+import com.vanir.util.DeviceUtils;
+
 public class NotificationDrawerSettings extends SettingsPreferenceFragment {
     private Preference mQSTiles;
 
@@ -29,6 +31,10 @@ public class NotificationDrawerSettings extends SettingsPreferenceFragment {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         addPreferencesFromResource(R.xml.notification_drawer_settings);
+
+        if (!DeviceUtils.isPackageInstalled(getActivity(), "com.cyanogenmod.lockclock")) {
+            getPreferenceScreen().removePreference(findPreference("status_bar_show_weather"));
+        }
 
         mQSTiles = findPreference("qs_order");
     }
