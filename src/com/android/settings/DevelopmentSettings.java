@@ -726,9 +726,9 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         resetVerifyAppsOverUsbOptions();
         resetDevelopmentShortcutOptions();
         resetUseNuplayerOptions();
-        writeAnimationScaleOption(0, mWindowAnimationScale, null);
-        writeAnimationScaleOption(1, mTransitionAnimationScale, null);
-        writeAnimationScaleOption(2, mAnimatorDurationScale, null);
+        writeAnimationScaleOption(0, mWindowAnimationScale, 0.85);
+        writeAnimationScaleOption(1, mTransitionAnimationScale, 0.85);
+        writeAnimationScaleOption(2, mAnimatorDurationScale, 0.85);
         // Only poke the color space setting if we control it.
         if (usingDevelopmentColorSpace()) {
             writeSimulateColorSpace(-1);
