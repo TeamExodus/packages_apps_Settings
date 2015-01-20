@@ -158,13 +158,16 @@ public class HardwareSettings extends SettingsPreferenceFragment implements
         }
 
         if (mTapToWake != null) {
-            mTapToWake.setChecked(TapToWake.isEnabled());
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            mTapToWake.setChecked(prefs.getBoolean(KEY_TAP_TO_WAKE, true));
         }
     }
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == mTapToWake) {
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            prefs.edit().putBoolean(KEY_TAP_TO_WAKE, mTapToWake.isChecked()).commit();
             return TapToWake.setEnabled(mTapToWake.isChecked());
 
         } else if (preference == mFastCharge) {
