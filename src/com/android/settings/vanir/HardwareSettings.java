@@ -115,7 +115,7 @@ public class HardwareSettings extends SettingsPreferenceFragment implements
         } else {
             removePreference(KEY_LIFT_TO_WAKE);
         }
-        
+
         mHapticFeedback = (CheckBoxPreference) cat.findPreference(KEY_VIBRATE_ON_TOUCH);
         mHapticFeedback.setChecked(Settings.System.getInt(getContentResolver(),
                 Settings.System.HAPTIC_FEEDBACK_ENABLED, 1) == 1);
@@ -123,12 +123,12 @@ public class HardwareSettings extends SettingsPreferenceFragment implements
         boolean haptic = hasHaptic(getActivity());
         boolean hasvib = VibratorIntensity.isSupported();
         if (!hasvib) {
-			cat.removePreference(findPreference("vibration_intensity"));
+            cat.removePreference(findPreference("vibration_intensity"));
         }
         if (!haptic) {
-			removePreference(KEY_VIBRATE_ON_TOUCH);
-		}
-		if (!hasvib && !haptic) removePreference(KEY_SENSORS_MOTORS_CATEGORY);
+            removePreference(KEY_VIBRATE_ON_TOUCH);
+        }
+        if (!hasvib && !haptic) removePreference(KEY_SENSORS_MOTORS_CATEGORY);
 
         boolean proximityCheckOnWait = getResources().getBoolean(
                 com.android.internal.R.bool.config_proximityCheckOnWake);
@@ -179,7 +179,7 @@ public class HardwareSettings extends SettingsPreferenceFragment implements
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (preference == mTapToWake) {
-			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             prefs.edit().putBoolean(KEY_TAP_TO_WAKE, mTapToWake.isChecked()).commit();
             return TapToWake.setEnabled(mTapToWake.isChecked());
 
@@ -187,11 +187,11 @@ public class HardwareSettings extends SettingsPreferenceFragment implements
             writeFastChargeOption();
             return true;
 
-		} else if (preference == mHapticFeedback) {
-			Settings.System.putInt(getContentResolver(),
-					Settings.System.HAPTIC_FEEDBACK_ENABLED,
-					mHapticFeedback.isChecked() ? 1 : 0);
-			return true;
+        } else if (preference == mHapticFeedback) {
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.HAPTIC_FEEDBACK_ENABLED,
+                    mHapticFeedback.isChecked() ? 1 : 0);
+            return true;
 
         } else if (preference == mProxWake) {
             Settings.System.putInt(getContentResolver(),
