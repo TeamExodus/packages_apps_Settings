@@ -52,11 +52,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment
     private static final int STATUS_BAR_BATTERY_STYLE_TEXT = 6;
 
     private static final String PREF_ENABLE = "clock_style";
-    private static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
     private static final String STATUS_BAR_CLOCK = "status_bar_show_clock";
-
-    private ListPreference mStatusBarClock;
-    private ListPreference mStatusBarAmPm;
 
     private ListPreference mStatusBarBattery;
     private ListPreference mStatusBarBatteryShowPercent;
