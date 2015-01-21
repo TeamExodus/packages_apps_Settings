@@ -69,6 +69,10 @@ public class QSTileHolder {
             resId = R.drawable.ic_qs_hotspot;
             stringId = R.string.hotspot;
         }
+        } else if (tileType.equals("updater")) {
+            resId = R.drawable.ic_qs_update;
+            stringId = R.string.vanirupdate_settings_title;
+        }
 
         String name = stringId != -1 ? context.getString(stringId) : null;
         return new QSTileHolder(resId, tileType, name);
