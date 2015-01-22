@@ -165,7 +165,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment
             int clockStyle = Integer.parseInt((String) newValue);
             int index = mStatusBarClock.findIndexOfValue((String) newValue);
             Settings.System.putInt(
-                    resolver, STATUS_BAR_CLOCK_STYLE, clockStyle);
+                    resolver, Settings.System.STATUS_BAR_CLOCK, clockStyle);
             mStatusBarClock.setSummary(mStatusBarClock.getEntries()[index]);
             return true;
         } else if (preference == mStatusBarAmPm) {
