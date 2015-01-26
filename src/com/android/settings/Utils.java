@@ -41,6 +41,7 @@ import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
@@ -76,6 +77,7 @@ import android.widget.TabWidget;
 import com.android.internal.util.ImageUtils;
 import com.android.internal.util.UserIcons;
 import com.android.settings.UserSpinnerAdapter.UserDetails;
+import com.android.settings.bluetooth.BluetoothSettings;
 import com.android.settings.dashboard.DashboardCategory;
 import com.android.settings.dashboard.DashboardTile;
 import com.android.settings.drawable.CircleFramedDrawable;
@@ -837,7 +839,12 @@ public final class Utils {
     public static Intent onBuildStartFragmentIntent(Context context, String fragmentName,
             Bundle args, int titleResId, CharSequence title, boolean isShortcut) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setClass(context, SubSettings.class);
+        if (BluetoothSettings.class.getName().equals(fragmentName)) {
+            intent.setClass(context, SubSettings.BluetoothSubSettings.class);
+            intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_AS_SUBSETTING, true);
+        } else {
+            intent.setClass(context, SubSettings.class);
+        }
         intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT, fragmentName);
         intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_ARGUMENTS, args);
         intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_TITLE_RESID, titleResId);
@@ -1181,5 +1188,23 @@ public final class Utils {
 
     public static boolean isPackageInstalled(Context context, String pkg) {
         return isPackageInstalled(context, pkg, true);
+    }
+
+    public static Context createPackageContext(Context context, String packageName) {
+        try {
+            return context.createPackageContext(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            // fall through
+        }
+        return null;
+    }
+
+    public static Drawable getNamedDrawable(Context context, String name) {
+        if (context == null) {
+            return null;
+        }
+        final Resources res = context.getResources();
+        final int resId = res.getIdentifier(name, "drawable", context.getPackageName());
+        return resId > 0 ? res.getDrawable(resId) : null;
     }
 }
