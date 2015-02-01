@@ -708,7 +708,6 @@
   <string name="qs_tile_screen_timeout">Sospensione schermo</string>
   <string name="qs_main_tiles_title">Ingrandisci prima riga</string>
   <string name="qs_main_tiles_summary_on">Due tile principali nella prima riga</string>
-  <string name="qs_main_tiles_summary_off">Tre tile su ogni riga</string>
   <string name="qs_advanced_location_title">Impostazioni avanzate di localizzazione</string>
   <string name="qs_advanced_location_summary">Attiva le impostazioni avanzate per la localizzazione in impostazioni rapide</string>
   <string name="gesture_settings_title">Gesture</string>
