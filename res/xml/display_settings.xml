@@ -41,13 +41,11 @@
                 android:entryValues="@array/brightness_adjust_values"
                 android:defaultValue="3" />
 
-        <Preference
+        <PreferenceScreen
                 android:key="wallpaper"
-                android:title="@string/wallpaper_settings_title">
+                android:title="@string/wallpaper_settings_title"
                 settings:keywords="@string/keywords_display_wallpaper"
-                <intent android:targetPackage="com.android.wallpapercropper"
-                        android:targetClass="com.android.wallpapercropper.WallpaperPickerActivity" />
-        </Preference>
+                android:fragment="com.android.settings.WallpaperTypeSettings" />
 
         <PreferenceScreen
                 android:key="display_rotation"
