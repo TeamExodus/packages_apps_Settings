@@ -104,16 +104,6 @@
     <string name="profile_trigger_disconnect">On disconnect</string>
     <string name="profile_trigger_notrigger">No trigger</string>
 
-    <!-- Profile Settings sound modes labels -->
-    <string name="sound_mode">Notification mode</string>
-    <string name="ringer_mode">Ring mode</string>
-    <string name="lights_mode">Lights mode</string>
-    <string name="vibrate_mode">Vibrate mode</string>
-
-    <!-- Sound settings screen, setting option name to pick ringtone (a list dialog comes up)-->
-    <string name="soundtone_title">Notification tone</string>
-    <string name="soundtone_summary" translatable="false">""</string>
-
     <!-- Title for application group setting screen -->
     <string name="profile_applist_title">Apps</string>
 
@@ -169,6 +159,7 @@
     <string name="power_end_call_title">End call</string>
     <string name="power_end_call_summary">Pressing the power button will end the current call</string>
     <string name="button_wake_title">Wake up device</string>
+    <string name="button_wake_summary">Overrides playback control</string>
     <string name="home_answer_call_title">Answer call</string>
     <string name="home_answer_call_summary">Pressing the home button will answer the current incoming call</string>
 
@@ -274,7 +265,6 @@
     <string name="app_security_title">App security</string>
     <string name="sms_security_check_limit_title">SMS message limit</string>
     <string name="sms_security_check_limit_summary">Apps can send %d messages in 30 minutes before requiring confirmation</string>
-    <string name="sms_security_check_limit_default">30 (default)</string>
 
     <string name="spam_added_title">Added %1$s</string>
     <string name="spam_last_blocked_title">Last blocked %1$s</string>
@@ -284,11 +274,20 @@
 
     <!-- About phone screen,  setting option name -->
     <string name="mod_version">EXODUS version</string>
+
+    <!-- Settings switch for updating Cyanogen recovery -->
+    <string name="update_recovery_title">Update recovery</string>
+    <string name="update_recovery_summary">Update recovery with system updates</string>
+    <string name="update_recovery_on_warning">NOTICE: When this feature is enabled, your installed recovery will be replaced by one included with the current version of the running OS.\n\nYour recovery will be updated along with upgrades to your system, helping to ensure compatibility with future versions.\n\nWould you like to enable this feature?</string>
+    <string name="update_recovery_off_warning">WARNING: When this feature is disabled, your installed recovery will not be updated with OS upgrades.\n\nFuture OS updates may not install with outdated or custom recovery versions.\n\nDo you really want to disable this feature?</string>
+
     <string name="mod_version_default">Unknown</string>
     <string name="model_name">Model name</string>
+
     <!-- About phone screen, build date of ROM -->
     <string name="build_date">Build date</string>
     <string name="build_date_default" translatable="false">2014-01-01-0000</string>
+
     <!-- About device screen, Cpu info -->
     <string name="cpu_info">CPU</string>
     <!-- About phone screen, Free memory info -->
@@ -297,7 +296,9 @@
     <!--- Advanced Settings -->
     <string name="advanced_settings">Advanced settings</string>
     <string name="advanced_settings_summary">Enable more settings options</string>
- 
+
+    <string name="contributor_cloud_title">Contributors</string>
+
     <!--- Tap To Wake -->
     <string name="double_tap_to_wake_title">Double-tap to wake</string>
 
@@ -373,7 +374,7 @@
     <string name="navigation_bar_left_title">Left-handed mode</string>
     <string name="navigation_bar_left_summary">Place the navigation bar on the left side of the screen in landscape mode</string>
     <string name="navigation_bar_title">Buttons and layout</string>
-    <string name="navigation_bar_help_text">To get started tap the edit icon to unlock the navigation bar for editing.\n\nYou can tap an icon to change its shortcut, or long press an icon to re-arrange the layout.\n\nTap save to commit your changes, or restore to reset the layout to default settings.</string>
+    <string name="navigation_bar_help_text">To get started tap the edit icon to unlock the navigation bar for editing.\n\nYou can tap an icon to change its shortcut, or long press an icon to re-arrange the layout.\n\nTap \'Save\' to commit your changes, or \'Restore defaults\' to reset the layout to default settings.</string>
     <string name="navigation_restore_button_text">Restore\ndefaults</string>
     <string name="navigation_edit_button_text">Edit</string>
     <string name="navigation_save_button_text">Save</string>
@@ -403,7 +404,7 @@
     <string name="status_bar_am_pm_info">24-hour clock is enabled</string>
     <string name="status_bar_am_pm_normal">Normal</string>
     <string name="status_bar_am_pm_small">Small</string>
-    <string name="status_bar_am_pm_hidden">Hidden (default)</string>
+    <string name="status_bar_am_pm_hidden">Hidden</string>
 
     <!-- Status bar - Battery -->
     <string name="status_bar_battery_style_title">Battery status style</string>
@@ -415,7 +416,7 @@
 
     <!-- Status bar - Battery percentage -->
     <string name="status_bar_battery_percentage_title">Battery percentage</string>
-    <string name="status_bar_battery_percentage_default">Hidden (default)</string>
+    <string name="status_bar_battery_percentage_default">Hidden</string>
     <string name="status_bar_battery_percentage_text_inside">Inside the icon</string>
     <string name="status_bar_battery_percentage_text_next">Next to the icon</string>
 
@@ -524,7 +525,7 @@
     <string name="app_ops_summaries_read_mms">read MMS</string>
     <string name="app_ops_summaries_write_mms">write MMS</string>
     <string name="app_ops_summaries_auto_start">auto start</string>
-    <string name="app_ops_summaries_nfc_change">nfc change</string>
+    <string name="app_ops_summaries_nfc_change">NFC change</string>
     <string name="app_ops_summaries_delete_sms">delete SMS</string>
     <string name="app_ops_summaries_delete_mms">delete MMS</string>
     <string name="app_ops_summaries_delete_contacts">delete contacts</string>
@@ -702,12 +703,16 @@
     <string name="bluetooth_profile_sap">SIM Access</string>
 
     <!-- Bluetooth settings.  Connection options screen.  The summary for the DUN checkbox preference when DUN is connected. -->
-    <string name="bluetooth_dun_profile_summary_connected">Connected to DUN Server</string>
+    <string name="bluetooth_dun_profile_summary_connected">Connected to DUN server</string>
+    <!-- Bluetooth settings.  Connection options screen.  The summary for the pbap checkbox preference when pbap is connected. -->
+    <string name="bluetooth_pbap_profile_summary_connected">Connected to pbap server</string>
     <!-- Bluetooth settings.  Connection options screen.  The summary for the SAP checkbox preference when SAP is connected. -->
-    <string name="bluetooth_sap_profile_summary_connected">Connected to SIM Access Server</string>
+    <string name="bluetooth_sap_profile_summary_connected">Connected to SIM Access server</string>
 
     <!-- Bluetooth settings.  Connection options screen.  The summary for the DUN checkbox preference that describes how checking it will set the DUN profile as preferred. -->
     <string name="bluetooth_dun_profile_summary_use_for">Use for Dial-up Network Access</string>
+    <!-- Bluetooth settings.  Connection options screen.  The summary for the pbap checkbox preference that describes how checking it will set the pbap profile as preferred. -->
+    <string name="bluetooth_pbap_profile_summary_use_for">Use for Contact sharing</string>
     <!-- Bluetooth settings.  Connection options screen.  The summary for the SAP checkbox preference that describes how checking it will set the SAP profile as preferred. -->
     <string name="bluetooth_sap_profile_summary_use_for">Use for SIM Access</string>
     <!-- Bluetooth settings.  A checkbox to set if we should accept all the file types regardless of their presence in MIME type whitelist -->
@@ -747,14 +752,14 @@
     <string name="usb_format_summary" product="default">Erases all data on the USB storage, such as music and photos</string>
     <string name="usb_mount" product="default">Mount USB storage</string>
     <string name="usb_mount_summary" product="default"></string>
-    <string name="usb_insert_summary" product="default">Insert an USB storage for mounting</string>
+    <string name="usb_insert_summary" product="default">Insert USB storage to mount</string>
     <string name="uicc_eject" product="default">Unmount UICC storage</string>
     <string name="uicc_eject_summary" product="default">Unmount the UICC storage so you can safely remove it</string>
     <string name="uicc_format" product="default">Erase UICC storage</string>
     <string name="uicc_format_summary" product="default">Erases all data on the UICC storage, such as music and photos</string>
     <string name="uicc_mount" product="default">Mount UICC storage</string>
     <string name="uicc_mount_summary" product="default"></string>
-    <string name="uicc_insert_summary" product="default">Insert an UICC storage for mounting</string>
+    <string name="uicc_insert_summary" product="default">Insert UICC storage to mount</string>
     <!-- Title of dialog asking user to confirm before enabling UMS. [CHAR LIMIT=48] -->
     <string name="usb_settings_enable_ums_title">Enable mass storage?</string>
     <!-- Message of dialog asking user to confirm before enabling UMS. [CHAR LIMIT=NONE] -->
@@ -769,10 +774,6 @@
     <string name="usb_unmount_inform_text" product="default">USB storage will be unmounted.</string>
     <string name="uicc_unmount_inform_text" product="default">UICC storage will be unmounted.</string>
 
-    <string name="usb_media_format_title" product="default">Erase USB storage</string>
-    <string name="uicc_media_format_title" product="default">Erase UICC storage</string>
-    <string name="usb_media_format_summary" product="default">Erases all data on the USB storage</string>
-    <string name="uicc_media_format_summary" product="default">Erases all data on the UICC storage</string>
     <string name="usb_media_format_desc" product="default">Erase the USB storage? You will lose <b>all</b> data on the storage!</string>
     <string name="uicc_media_format_desc" product="default">Erase the UICC storage? You will lose <b>all</b> data on the storage!</string>
     <string name="usb_media_format_button_text" product="default">Erase USB storage</string>
@@ -804,15 +805,14 @@
     <string name="sim_enabled">enabled</string>
     <string name="sim_disabled">disabled</string>
     <string name="sim_missing">missing or faulty</string>
-    <string name="sim_enabler_need_disable_sim">SIM card will be deactivated. Do you want to continue?</string>
+    <string name="sim_enabler_need_disable_sim">Deactivate SIM card?</string>
     <string name="sim_enabler_airplane_on">Unable to perform the operation while airplane mode is on.</string>
     <string name="sim_enabler_in_call">Unable to perform the operation while in call.</string>
     <string name="sim_enabler_both_inactive">Can\'t disable all SIM cards</string>
     <string name="sim_enabler_sim">SIM</string>
-    <string name="sim_enabler_enabling">Activating\2026</string>
-    <string name="sim_enabler_disabling">Deactivating\2026</string>
-    <string name="sub_activate_success">SIM activated.</string>
-    <string name="sub_deactivate_success">SIM deactivated.</string>
+    <string name="sim_enabler_enabling">Activating <xliff:g id="name">%s</xliff:g>\u2026</string>
+    <string name="sim_enabler_disabling">Deactivating <xliff:g id="name">%s</xliff:g>\u2026</string>
+    <string name="sim_enabler_deactivate">Deactivate</string>
 
     <string name="primary_sub_select_title">Default 3G/LTE subscription</string>
 
@@ -829,7 +829,7 @@
     <string name="menu_hidden_apps_delete">Reset</string>
     <string name="menu_hidden_apps_reset_lock">Reset pattern lock</string>
     <string name="protected_apps">Protected apps</string>
-    <string name="saving_protected_components">Saving component state</string>
+    <string name="saving_protected_components">Saving component state\u2026</string>
 
     <string name="stats_collection_title">Stats collection</string>
     <string name="stats_collection_summary">When enabled, allows metrics collection</string>
@@ -955,9 +955,9 @@
     <string name="qs_tile_performance">Performance</string>
     <string name="qs_tile_nfc">NFC</string>
     <string name="qs_tile_compass">Compass</string>
-    <string name="qs_tile_lockscreen">Lockscreen</string>
+    <string name="qs_tile_lockscreen">Lock screen</string>
     <string name="qs_tile_lte">LTE</string>
-    <string name="qs_tile_visualizer">AudioFX</string>
+    <string name="qs_tile_visualizer" translatable="false">AudioFX</string>
     <string name="qs_tile_screen_timeout">Screen timeout</string>
 
     <string name="qs_main_tiles_title">Enlarge first row</string>
@@ -993,14 +993,45 @@
 
     <string name="lockscreen_settings_title">Lock screen</string>
     <string name="lockscreen_targets_message">Lockscreen shortcuts</string>
+    <string name="lockscreen_targets_message">Lock screen shortcuts</string>
     <string name="lockscreen_default_target">Default</string>
+    <string name="lockscreen_none_target">None</string>
     <string name="lockscreen_message">Tap an icon on the left or right to reassign a lock screen shortcut.</string>
     <string name="lockscreen_choose_action_title">Choose action</string>
 
     <!-- WhisperPush -->
     <string name="whisperpush_title">WhisperPush</string>
     <string name="whisperpush_summary">Manage secure SMS settings</string>
-    <string name="whisperpush_registration_title">Register</string>
-    <string name="whisperpush_registration_summary">Register for WhisperPush to enable encrypted SMS.</string>
-    <string name="whisperpush_identitykey_title">Review identity keys</string>
+
+    <string name="navigation_ring_title">Navigation ring targets</string>
+    <string name="navigation_ring_message">Tap the edit icon to open the navigation ring for editing.\n\nSelect a target to configure its behavior.\n\nTap the \'\u2713\' icon to save your changes, or \'Restore defaults\' to reset the settings to defaults.</string>
+
+    <!-- Stylus Icon -->
+    <string name="stylus_icon_enabled_title">Show icon when using stylus</string>
+    <string name="stylus_icon_enabled_summary">Show the pointer icon when hovering or drawing with the stylus</string>
+
+    <!-- Stylus Gestures -->
+    <string name="gestures_settings_title">Stylus gestures</string>
+    <string name="category_spen_title">Stylus gestures</string>
+    <string name="enable_subcat_title">Stylus</string>
+    <string name="enable_spen_title_head">Enable gestures</string>
+    <string name="enable_spen_summary_head">Use swipe gestures by holding down the stylus button</string>
+    <string name="gestures_subcat_title">Gestures</string>
+    <string name="gestures_left_spen_title_head">Left swipe</string>
+    <string name="gestures_right_spen_title_head">Right swipe</string>
+    <string name="gestures_up_spen_title_head">Up swipe</string>
+    <string name="gestures_down_spen_title_head">Down swipe</string>
+    <string name="gestures_long_spen_title_head">Long press</string>
+    <string name="gestures_double_spen_title_head">Double tap</string>
+
+    <!-- Gestures Options -->
+    <string name="gestures_action_empty">No action</string>
+    <string name="gestures_action_home">Home</string>
+    <string name="gestures_action_back">Back</string>
+    <string name="gestures_action_menu">Menu</string>
+    <string name="gestures_action_search">Invoke search</string>
+    <string name="gestures_action_recent">Recent apps</string>
+
+    <!-- Stylus gestures -->
+    <string name="stylus_app_not_installed">%s is not installed</string>
 </resources>

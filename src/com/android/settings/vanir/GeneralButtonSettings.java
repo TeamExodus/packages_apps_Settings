@@ -35,6 +35,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.provider.SearchIndexableResource;
 import android.provider.Settings;
 
 import android.view.IWindowManager;
@@ -44,14 +45,21 @@ import android.view.WindowManagerGlobal;
 
 import com.android.settings.R;
 import com.android.settings.cyanogenmod.ButtonBacklightBrightness;
+import com.android.settings.search.BaseSearchIndexProvider;
+import com.android.settings.search.Indexable;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.Utils;
 
 import org.cyanogenmod.hardware.KeyDisabler;
 import com.vanir.util.DeviceUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class GeneralButtonSettings extends SettingsPreferenceFragment implements
-        Preference.OnPreferenceChangeListener {
+        Preference.OnPreferenceChangeListener, Indexable {
 
     private static final String KEY_BUTTON_BACKLIGHT = "button_backlight";
     private static final String KEY_VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
@@ -116,7 +124,8 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
 
         final ButtonBacklightBrightness backlight =
                 (ButtonBacklightBrightness) findPreference(KEY_BUTTON_BACKLIGHT);
-        if (!backlight.isButtonSupported() && !backlight.isKeyboardSupported()) {
+        if (!backlight.isButtonSupported(getActivity()) &&
+                !backlight.isKeyboardSupported(getActivity())) {
             prefScreen.removePreference(backlight);
         }
 
@@ -155,8 +164,8 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
         }
 
         if (Utils.hasVolumeRocker(getActivity())) {
-			mVolWake = (CheckBoxPreference) findPreference(KEY_VOLUME_WAKE);
-			mVolWake.setChecked(Settings.System.getInt(resolver,
+            mVolWake = (CheckBoxPreference) findPreference(KEY_VOLUME_WAKE);
+            mVolWake.setChecked(Settings.System.getInt(resolver,
                     Settings.System.VOLUME_WAKE_SCREEN, 0) == 1);
             if (!showVolumeWake) {
                 volumeCategory.removePreference(findPreference(Settings.System.VOLUME_WAKE_SCREEN));
@@ -246,7 +255,7 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
         }
 
         if (preference == mDisableNavigationKeys) {
-		    mHandler.postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     writeDisableNavkeysOption(getActivity(), mDisableNavigationKeys.isChecked());
@@ -260,13 +269,13 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION, value);
 
-	    } else if (preference == mVolButton) {
+        } else if (preference == mVolButton) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.VOLUME_KEY_CURSOR_CONTROL,
                     mVolButton.isChecked() ? 1 : 0);
             return true;
 
-	    } else if (preference == mVolWake) {
+        } else if (preference == mVolWake) {
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.VOLUME_WAKE_SCREEN,
                     mVolWake.isChecked() ? 1 : 0);
@@ -339,4 +348,35 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
                         ? Settings.Secure.INCALL_POWER_BUTTON_BEHAVIOR_HANGUP
                         : Settings.Secure.INCALL_POWER_BUTTON_BEHAVIOR_SCREEN_OFF));
     }
+
+    public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
+            new BaseSearchIndexProvider() {
+                @Override
+                public List<SearchIndexableResource> getXmlResourcesToIndex(Context context,
+                                                                            boolean enabled) {
+                    ArrayList<SearchIndexableResource> result =
+                            new ArrayList<SearchIndexableResource>();
+
+                    SearchIndexableResource sir = new SearchIndexableResource(context);
+                    sir.xmlResId = R.xml.general_button_settings;
+                    result.add(sir);
+
+                    return result;
+                }
+
+                @Override
+                public List<String> getNonIndexableKeys(Context context) {
+                    ArrayList<String> result = new ArrayList<String>();
+
+                    Intent intent =
+                            new Intent("com.cyanogenmod.action.LAUNCH_BLUETOOTH_INPUT_SETTINGS");
+                    intent.setClassName("com.cyanogenmod.settings.device",
+                            "com.cyanogenmod.settings.device.BluetoothInputSettings");
+                    if (!Utils.doesIntentResolve(context, intent)) {
+                        result.add(KEY_BLUETOOTH_INPUT_SETTINGS);
+                    }
+
+                    return result;
+                }
+            };
 }

@@ -156,7 +156,12 @@ public final class Utils {
     // Device type reference
     private static int sDeviceType = -1;
 
-/**
+    public static boolean doesIntentResolve(Context context, Intent intent) {
+        PackageManager packageManager = context.getPackageManager();
+        return packageManager.queryIntentActivities(intent, 0).size() > 0;
+    }
+
+    /**
      * Finds a matching activity for a preference's intent. If a matching
      * activity is not found, it will remove the preference. The icon, title and
      * summary of the preference will also be updated with the values retrieved

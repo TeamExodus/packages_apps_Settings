@@ -28,6 +28,11 @@
             android:fragment="com.android.settings.vanir.navbar.NavbarTabHostFragment"
             android:title="@string/category_navbar" />
 
+        <PreferenceScreen
+            android:key="navigation_bar_ring"
+            android:fragment="com.android.settings.cyanogenmod.NavRing"
+            android:title="@string/navigation_ring_title" />
+
         <SwitchPreference
             android:key="enable_navigation_ring"
             android:title="@string/enable_navigation_ring_title"

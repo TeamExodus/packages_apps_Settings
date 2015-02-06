@@ -30,13 +30,6 @@
         <item>3</item>
     </string-array>
 
-    <!-- Values for vibrate_entries matching constants in SoundSettings. Do not translate. -->
-    <string-array name="profile_values" translatable="false">
-        <item>OVERRIDE</item>
-        <item>SUPPRESS</item>
-        <item>DEFAULT</item>
-    </string-array>
-
     <!-- Profile 2G-3G and 4G mode options. -->
     <string-array name="profile_networkmode_entries_4g" translatable="false">
         <item>@string/profile_networkmode_2g</item>
@@ -130,7 +123,7 @@
 
     <!-- Sms security limit -->
     <string-array name="sms_security_check_limit_entries" translatable="false">
-        <item>@string/sms_security_check_limit_default</item>
+        <item>30</item>
         <item>50</item>
         <item>100</item>
         <item>200</item>
@@ -336,7 +329,7 @@
     </string-array>
 
     <!-- App ops permissions -->
-    <string-array name="app_ops_permissions">
+    <string-array name="app_ops_permissions" translatable="false">
         <item>@string/app_ops_permissions_allowed</item>
         <item>@string/app_ops_permissions_ignored</item>
         <item>@string/app_ops_permissions_always_ask</item>
@@ -447,5 +440,24 @@
         <item>airplane</item>
         <item>users</item>
         <item>bugreport</item>
+    </string-array>
+
+    <!-- Stylus Gestures -->
+    <string-array name="gestures_entries" translatable="false">
+        <item>@string/gestures_action_empty</item>
+        <item>@string/gestures_action_home</item>
+        <item>@string/gestures_action_back</item>
+        <item>@string/gestures_action_menu</item>
+        <item>@string/gestures_action_search</item>
+        <item>@string/gestures_action_recent</item>
+    </string-array>
+
+    <string-array name="gestures_values" translatable="false">
+        <item>1000</item>
+        <item>1001</item>
+        <item>1002</item>
+        <item>1003</item>
+        <item>1004</item>
+        <item>1005</item>
     </string-array>
 </resources>
