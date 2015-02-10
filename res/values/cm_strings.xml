@@ -1000,6 +1000,14 @@
     <string name="lockscreen_settings_title">Lock screen</string>
     <string name="lockscreen_targets_message">Lockscreen shortcuts</string>
 
+    <string name="power_menu_expanded_desktop">Expanded desktop</string>
+    <string name="expanded_hide_nothing">Hide nothing</string>
+    <string name="expanded_hide_status">Hide status bar</string>
+    <string name="expanded_hide_navigation">Hide navigation bar</string>
+    <string name="expanded_hide_both">Hide both</string>
+    <string name="expanded_nothing_to_show">To add a custom per-app configuration for expanded state, set \'Enabled for all\' to the off position</string>
+    <string name="expanded_enabled_for_all">Enabled for all</string>
+
     <string name="lockscreen_targets_message">Lock screen shortcuts</string>
     <string name="lockscreen_default_target">Default</string>
     <string name="lockscreen_none_target">None</string>
