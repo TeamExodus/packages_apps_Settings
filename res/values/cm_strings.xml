@@ -282,6 +282,8 @@
     <string name="update_recovery_off_warning">WARNING: When this feature is disabled, your installed recovery will not be updated with OS upgrades.\n\nFuture OS updates may not install with outdated or custom recovery versions.\n\nDo you really want to disable this feature?</string>
 
     <string name="mod_version_default">Unknown</string>
+
+    <!-- About phone screen, model name -->
     <string name="model_name">Model name</string>
 
     <!-- About phone screen, build date of ROM -->
@@ -298,6 +300,9 @@
     <string name="advanced_settings_summary">Enable more settings options</string>
 
     <string name="contributor_cloud_title">Contributors</string>
+
+    <!-- About phone screen, service state -->
+    <string name="phone_service_state">Voice: <xliff:g id="voice_state">%1$s</xliff:g>, data: <xliff:g id="data_state">%2$s</xliff:g></string>
 
     <!--- Tap To Wake -->
     <string name="double_tap_to_wake_title">Double-tap to wake</string>
@@ -757,14 +762,14 @@
     <string name="usb_format" product="default">Erase USB storage</string>
     <string name="usb_format_summary" product="default">Erases all data on the USB storage, such as music and photos</string>
     <string name="usb_mount" product="default">Mount USB storage</string>
-    <string name="usb_mount_summary" product="default"></string>
+    <string name="usb_mount_summary" product="default" translatable="false"></string>
     <string name="usb_insert_summary" product="default">Insert USB storage to mount</string>
     <string name="uicc_eject" product="default">Unmount UICC storage</string>
     <string name="uicc_eject_summary" product="default">Unmount the UICC storage so you can safely remove it</string>
     <string name="uicc_format" product="default">Erase UICC storage</string>
     <string name="uicc_format_summary" product="default">Erases all data on the UICC storage, such as music and photos</string>
     <string name="uicc_mount" product="default">Mount UICC storage</string>
-    <string name="uicc_mount_summary" product="default"></string>
+    <string name="uicc_mount_summary" product="default" translatable="false"></string>
     <string name="uicc_insert_summary" product="default">Insert UICC storage to mount</string>
     <!-- Title of dialog asking user to confirm before enabling UMS. [CHAR LIMIT=48] -->
     <string name="usb_settings_enable_ums_title">Enable mass storage?</string>
