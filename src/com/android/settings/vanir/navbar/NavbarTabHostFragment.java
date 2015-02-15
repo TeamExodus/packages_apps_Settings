@@ -40,10 +40,20 @@ public class NavbarTabHostFragment extends Fragment implements OnTabChangeListen
         mTabHost = new FragmentTabHost(getActivity());
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.container_material);
 
-        mTabHost.addTab(mTabHost.newTabSpec("rearrange").setIndicator(getString(R.string.navbar_tab_arrange)),
-                ArrangeNavbarFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("settings").setIndicator(getString(R.string.navbar_tab_settings)),
-                NavbarSettingsFragment.class, null);
+        final int deviceKeys = getResources().getInteger(
+                com.android.internal.R.integer.config_deviceHardwareKeys);
+
+        if (deviceKeys > 0 && deviceKeys != 64) {
+            mTabHost.addTab(mTabHost.newTabSpec("settings").setIndicator(getString(R.string.navbar_tab_settings)),
+                    NavbarSettingsFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec("rearrange").setIndicator(getString(R.string.navbar_tab_arrange)),
+                    ArrangeNavbarFragment.class, null);
+        } else {
+            mTabHost.addTab(mTabHost.newTabSpec("rearrange").setIndicator(getString(R.string.navbar_tab_arrange)),
+                    ArrangeNavbarFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec("settings").setIndicator(getString(R.string.navbar_tab_settings)),
+                    NavbarSettingsFragment.class, null);
+        }
 
         mTabHost.setOnTabChangedListener(this);
         return mTabHost;
