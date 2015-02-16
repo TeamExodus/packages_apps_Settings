@@ -46,7 +46,7 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
     private static final String TAG = "PowerMenuActions";
     private static final boolean DEBUG = false;
 
-    private CheckBoxPreference mPowerPref;
+    private Preference mPowerPref;
     private CheckBoxPreference mRebootPref;
     private CheckBoxPreference mAirplanePref;
     private CheckBoxPreference mBugReportPref;
@@ -70,7 +70,7 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
 
         addPreferencesFromResource(R.xml.power_menu);
         mContext = getActivity().getApplicationContext();
-        
+
         mAvailableActions = getActivity().getResources().getStringArray(R.array.power_menu_actions_array);
         mAllActions = PowerMenuConstants.getAllActions();
         
@@ -81,9 +81,7 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
                 continue;
             }
 
-            if (action.equals(GLOBAL_ACTION_KEY_POWER)) {
-                mPowerPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_POWER);
-            } else if (action.equals(GLOBAL_ACTION_KEY_REBOOT)) {
+            if (action.equals(GLOBAL_ACTION_KEY_REBOOT)) {
                 mRebootPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_REBOOT);
             } else if (action.equals(GLOBAL_ACTION_KEY_AIRPLANE)) {
                 mAirplanePref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_AIRPLANE);
@@ -114,8 +112,6 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (mPowerPref != null)
-                mPowerPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_POWER));
 
         if (mRebootPref != null)
                 mRebootPref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_REBOOT));
@@ -170,11 +166,7 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         boolean value;
 
-        if (preference == mPowerPref) {
-            value = mPowerPref.isChecked();
-            updateUserConfig(value, GLOBAL_ACTION_KEY_POWER);
-
-        } else if (preference == mRebootPref) {
+        if (preference == mRebootPref) {
             value = mRebootPref.isChecked();
             updateUserConfig(value, GLOBAL_ACTION_KEY_REBOOT);
 
