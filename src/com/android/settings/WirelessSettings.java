@@ -75,7 +75,6 @@ public class WirelessSettings extends SettingsPreferenceFragment
     private static final String KEY_VPN_SETTINGS = "vpn_settings";
     private static final String KEY_TETHER_SETTINGS = "tether_settings";
     private static final String KEY_PROXY_SETTINGS = "proxy_settings";
-    private static final String KEY_MOBILE_NETWORK_SETTINGS = "mobile_network_settings";
     private static final String KEY_CALL_SETTINGS = "phone_call_settings";
     private static final String KEY_MANAGE_MOBILE_PLAN = "manage_mobile_plan";
     private static final String KEY_SMS_APPLICATION = "sms_application";
@@ -273,22 +272,6 @@ public class WirelessSettings extends SettingsPreferenceFragment
         mAirplaneModePreference = (SwitchPreference) findPreference(KEY_TOGGLE_AIRPLANE);
         SwitchPreference nfc = (SwitchPreference) findPreference(KEY_TOGGLE_NFC);
 
-        if (TelephonyManager.getDefault().getPhoneCount() > 1) {
-            // Mobile Networks menu will traverse to Select Subscription menu.
-            PreferenceScreen manageSub =
-                    (PreferenceScreen) findPreference(KEY_MOBILE_NETWORK_SETTINGS);
-
-            if (manageSub != null) {
-                Intent intent = manageSub.getIntent();
-                intent.setClassName("com.android.phone",
-                                    "com.android.phone.msim.SelectSubscription");
-                intent.putExtra(SelectSubscription.PACKAGE,
-                                    "com.android.phone");
-                intent.putExtra(SelectSubscription.TARGET_CLASS,
-                                "com.android.phone.msim.MSimMobileNetworkSubSettings");
-            }
-        }
-
         PreferenceScreen androidBeam = (PreferenceScreen) findPreference(KEY_ANDROID_BEAM_SETTINGS);
         CheckBoxPreference nsd = (CheckBoxPreference) findPreference(KEY_TOGGLE_NSD);
 
@@ -354,7 +337,6 @@ public class WirelessSettings extends SettingsPreferenceFragment
         // if it's a wifi-only device, or if the settings are restricted.
         if (isSecondaryUser || Utils.isWifiOnly(getActivity())
                 || mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
-            removePreference(KEY_MOBILE_NETWORK_SETTINGS);
             removePreference(KEY_MANAGE_MOBILE_PLAN);
         }
         // Remove Mobile Network Settings and Manage Mobile Plan
@@ -537,7 +519,6 @@ public class WirelessSettings extends SettingsPreferenceFragment
 
                 // Remove Mobile Network Settings and Manage Mobile Plan if it's a wifi-only device.
                 if (isSecondaryUser || Utils.isWifiOnly(context)) {
-                    result.add(KEY_MOBILE_NETWORK_SETTINGS);
                     result.add(KEY_MANAGE_MOBILE_PLAN);
                 }
 
