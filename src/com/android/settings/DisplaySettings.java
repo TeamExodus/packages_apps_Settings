@@ -211,7 +211,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         }
 
         mScreenColorSettings = (PreferenceScreen) findPreference(KEY_SCREEN_COLOR_SETTINGS);
-        if (!isPostProcessingSupported()) {
+        if (!isPostProcessingSupported(activity)) {
             getPreferenceScreen().removePreference(mScreenColorSettings);
         }
     }
@@ -569,9 +569,9 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         }
     }
 
-    private boolean isPostProcessingSupported() {
+    private static boolean isPostProcessingSupported(Context context) {
         boolean ret = true;
-        final PackageManager pm = getPackageManager();
+        final PackageManager pm = context.getPackageManager();
         try {
             pm.getPackageInfo("com.qualcomm.display", PackageManager.GET_META_DATA);
         } catch (NameNotFoundException e) {
@@ -609,13 +609,11 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
     public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
             new BaseSearchIndexProvider() {
-                private boolean mHasTapToWake;
                 private boolean mHasSunlightEnhancement, mHasColorEnhancement;
                 private boolean mHasDisplayGamma, mHasDisplayColor;
 
                 @Override
                 public void prepare() {
-                    mHasTapToWake = isTapToWakeSupported();
                     mHasSunlightEnhancement = isSunlightEnhancementSupported();
                     mHasColorEnhancement = isColorEnhancementSupported();
                     mHasDisplayGamma = DisplayGamma.isSupported();
@@ -643,14 +641,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                         result.add(KEY_SCREEN_SAVER);
                     }
 
-                    if (!context.getResources().getBoolean(
-                            com.android.internal.R.bool.config_intrusiveNotificationLed)) {
-                        result.add(KEY_NOTIFICATION_LIGHT);
-                    }
-                    if (!context.getResources().getBoolean(
-                            com.android.internal.R.bool.config_intrusiveBatteryLed)) {
-                        result.add(KEY_BATTERY_LIGHT);
-                    }
                     if (!mHasSunlightEnhancement) {
                         result.add(KEY_SUNLIGHT_ENHANCEMENT);
                     }
