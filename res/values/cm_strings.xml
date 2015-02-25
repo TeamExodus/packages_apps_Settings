@@ -1015,6 +1015,10 @@
     <string name="lockscreen_settings_title">Lock screen</string>
     <string name="lockscreen_targets_message">Lockscreen shortcuts</string>
 
+    <!-- IC Codes -->
+    <string name="ic_code_model">Model: %1$s</string>
+    <string name="ic_code_full">IC: %1$s</string>
+
     <string name="power_menu_expanded_desktop">Expanded desktop</string>
     <string name="expanded_hide_nothing">Hide nothing</string>
     <string name="expanded_hide_status">Hide status bar</string>
