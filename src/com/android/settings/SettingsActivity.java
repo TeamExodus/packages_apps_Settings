@@ -1271,7 +1271,8 @@ public class SettingsActivity extends Activity
                         supported = (getPackageManager().getPackageInfo("eu.chainfire.supersu", 0).versionCode >= 185);
                     } catch (PackageManager.NameNotFoundException e) {
                     }
-                    if (!supported) {
+                    if (!supported || !showDev || um.hasUserRestriction(
+                            UserManager.DISALLOW_DEBUGGING_FEATURES)) {
                         removeTile = true;
                     }
                 }
