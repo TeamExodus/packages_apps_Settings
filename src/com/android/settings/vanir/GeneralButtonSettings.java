@@ -90,7 +90,6 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
     private ListPreference mVolumeKeyCursorControl;
     private CheckBoxPreference mSwapVolumeButtons;
     private CheckBoxPreference mPowerEndCall;
-    private CheckBoxPreference mVolButton;
     private CheckBoxPreference mVolWake;
 
     Handler mHandler = new Handler();
@@ -205,9 +204,10 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
                 volumeCategory.removePreference(findPreference(Settings.System.VOLUME_WAKE_SCREEN));
             }
 
-            mVolButton = (CheckBoxPreference) findPreference(KEY_VOLUME_BUTTON_MUSIC_CONTROL);
-            mVolButton.setChecked(Settings.System.getInt(resolver,
-                    Settings.System.VOLUME_KEY_CURSOR_CONTROL, 0) == 1);
+            int cursorControlAction = Settings.System.getInt(getContentResolver(),
+                    Settings.System.VOLUME_KEY_CURSOR_CONTROL, 0);
+            mVolumeKeyCursorControl = initActionList(KEY_VOLUME_KEY_CURSOR_CONTROL,
+                    cursorControlAction);
 
             int swapVolumeKeys = Settings.System.getInt(resolver,
                     Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION, 0);
@@ -337,12 +337,6 @@ public class GeneralButtonSettings extends SettingsPreferenceFragment implements
                     ? (Utils.isTablet(getActivity()) ? 2 : 1) : 0;
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION, value);
-
-        } else if (preference == mVolButton) {
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.VOLUME_KEY_CURSOR_CONTROL,
-                    mVolButton.isChecked() ? 1 : 0);
-            return true;
 
         } else if (preference == mVolWake) {
             Settings.System.putInt(getActivity().getContentResolver(),
