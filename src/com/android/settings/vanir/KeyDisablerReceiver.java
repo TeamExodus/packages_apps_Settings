@@ -59,26 +59,37 @@ public class KeyDisablerReceiver extends BroadcastReceiver {
 
             Editor editor = prefs.edit();
             if (enabled) {
-				// save the current brightness
-                int currentBrightness = Settings.System.getInt(resolver,
-                        Settings.System.BUTTON_BRIGHTNESS, defaultBrightness);
+				// save the current butten brightness timeout
+                int currentBrightness = Settings.Secure.getInt(resolver,
+                        Settings.Secure.BUTTON_BRIGHTNESS, defaultBrightness);
                 if (!prefs.contains("pre_navbar_button_backlight")) {
                     editor.putInt("pre_navbar_button_backlight", currentBrightness);
                 }
-                // set current brightness to zero hiding the buttons
+                // set current brightness timeout to zero hiding the buttons
                 if (forceDisabled) {
-                    Settings.System.putInt(resolver,
-                            Settings.System.BUTTON_BRIGHTNESS, 0);
-                }
+                    Settings.Secure.putInt(resolver,
+                            Settings.Secure.BUTTON_BRIGHTNESS, 0);
+                } else {
+					// reset the brightness timeout
+					if (prefs.contains("pre_navbar_button_backlight")) {
+						Settings.Secure.putInt(resolver,
+								Settings.Secure.BUTTON_BRIGHTNESS,
+								prefs.getInt("pre_navbar_button_backlight", defaultBrightness));
+						editor.remove("pre_navbar_button_backlight");
+					} else {
+						Settings.Secure.putInt(resolver,
+								Settings.Secure.BUTTON_BRIGHTNESS, defaultBrightness);
+					}
+				}
             } else {
 				if (prefs.contains("pre_navbar_button_backlight")) {
-                    Settings.System.putInt(resolver,
-                            Settings.System.BUTTON_BRIGHTNESS,
+                    Settings.Secure.putInt(resolver,
+                            Settings.Secure.BUTTON_BRIGHTNESS,
                             prefs.getInt("pre_navbar_button_backlight", defaultBrightness));
                     editor.remove("pre_navbar_button_backlight");
                 } else {
-                    Settings.System.putInt(resolver,
-                            Settings.System.BUTTON_BRIGHTNESS, defaultBrightness);
+                    Settings.Secure.putInt(resolver,
+                            Settings.Secure.BUTTON_BRIGHTNESS, defaultBrightness);
                 }
             }
         }
