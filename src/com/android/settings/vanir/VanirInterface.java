@@ -88,6 +88,8 @@ public class VanirInterface extends SettingsPreferenceFragment implements
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DEV_FORCE_SHOW_NAVBAR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.GLOBAL_IMMERSIVE_MODE_STATE), false, this);
         }
 
         @Override
@@ -104,6 +106,8 @@ public class VanirInterface extends SettingsPreferenceFragment implements
 
             boolean enabled = Settings.System.getInt(resolver,
                          Settings.System.DEV_FORCE_SHOW_NAVBAR, 0) == 1;
+            mImmersiveModeState.setChecked(Settings.System.getInt(getContentResolver(),
+                    Settings.System.GLOBAL_IMMERSIVE_MODE_STATE, 0) == 1);
 
             setHardwareImmersiveState(enabled || hasNavBar);
         }
