@@ -74,6 +74,11 @@
             />
 
         <PreferenceScreen
+            android:key="wakelock_blocker"
+            android:fragment="com.android.settings.vanir.WakeLockBlocker"
+            android:title="@string/wakelock_blocker_title" />
+
+        <PreferenceScreen
             android:key="lcd_density_setup"
             android:title="@string/lcd_density_title"
             android:summary="@string/lcd_density_summary"
