@@ -49,8 +49,6 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import org.cyanogenmod.hardware.KeyDisabler;
-
 import com.android.internal.util.vanir.NavbarConstants.NavbarConstant;
 import com.android.settings.R;
 import com.vanir.util.DeviceUtils;
