@@ -225,6 +225,7 @@
         <item>@string/hardware_keys_action_ime</item>
         <item>@string/hardware_keys_action_powermenu</item>
         <item>@string/hardware_keys_action_navbar</item>
+        <item>@string/hardware_keys_action_sleep</item>
     </string-array>
 
     <!-- item numbers are out of order to preserve original settings after reordering the dialog -->
@@ -243,6 +244,7 @@
         <item>10</item>
         <item>11</item>
         <item>12</item>
+        <item>7</item>
     </string-array>
 
     <!-- Battery Saver: Warning Color -->
