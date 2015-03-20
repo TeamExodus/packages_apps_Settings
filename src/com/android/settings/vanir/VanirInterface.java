@@ -87,29 +87,16 @@ public class VanirInterface extends SettingsPreferenceFragment implements
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DEV_FORCE_SHOW_NAVBAR), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.GLOBAL_IMMERSIVE_MODE_STATE), false, this);
         }
 
         @Override
         public void onChange(boolean selfChange) {
             ContentResolver resolver = mContext.getContentResolver();
-            boolean hasNavBar = false;
-
-            try {
-                hasNavBar = WindowManagerGlobal.getWindowManagerService().hasNavigationBar();
-
-            } catch (RemoteException e) {
-                Log.e(TAG, "Error getting navigation bar status");
+            if (mImmersiveModeState != null) {
+                mImmersiveModeState.setChecked(Settings.System.getInt(getContentResolver(),
+                        Settings.System.GLOBAL_IMMERSIVE_MODE_STATE, 0) == 1);
             }
-
-            boolean enabled = Settings.System.getInt(resolver,
-                         Settings.System.DEV_FORCE_SHOW_NAVBAR, 0) == 1;
-            mImmersiveModeState.setChecked(Settings.System.getInt(getContentResolver(),
-                    Settings.System.GLOBAL_IMMERSIVE_MODE_STATE, 0) == 1);
-
-            setHardwareImmersiveState(enabled || hasNavBar);
         }
     }
 
@@ -209,7 +196,6 @@ public class VanirInterface extends SettingsPreferenceFragment implements
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.GLOBAL_IMMERSIVE_MODE_STYLE, immersiveModeValue);
             setListPreferenceSummary(mImmersiveModePref, strValue);
-            saveImmersiveState(immersiveModeValue);
             updateImmersiveModeDependencies();
             updateRebootDialog();
             return true;
@@ -243,47 +229,6 @@ public class VanirInterface extends SettingsPreferenceFragment implements
         mExpandedDesktop.setEnabled(mmmBBQChickenSandwich);
         mImmersiveOrientation.setEnabled(mmmBBQChickenSandwich);
         mImmersiveModeState.setEnabled(mmmBBQChickenSandwich);
-    }
-
-    public void setHardwareImmersiveState(boolean enabled) {
-        final SharedPreferences prefs = mContext.getSharedPreferences(HARDWARE_IMMERSIVE_STYLE, Context.MODE_PRIVATE);
-        int previousEnabledValue = prefs.getInt(IMMERSIVE_ENABLED, 2);
-        int previousDisabledValue = prefs.getInt(IMMERSIVE_DISABLED, 1);
-        if (previousDisabledValue > 1) previousDisabledValue = 1;
-
-        final Resources res = getResources();
-        mImmersiveModePref.setEntryValues(res.getStringArray(
-                enabled ? R.array.immersive_mode_values : R.array.immersive_mode_values_no_navbar));
-        mImmersiveModePref.setEntries(res.getStringArray(
-                enabled ? R.array.immersive_mode_entries : R.array.immersive_mode_entries_no_navbar));
-
-        Settings.System.putInt(getActivity().getContentResolver(),
-                Settings.System.GLOBAL_IMMERSIVE_MODE_STYLE, enabled ? previousEnabledValue : previousDisabledValue);
-
-        String strValue = String.valueOf(enabled ? previousEnabledValue : previousDisabledValue);
-        mImmersiveModePref.setValue(strValue);
-        setListPreferenceSummary(mImmersiveModePref, strValue);
-    }
-
-    private void saveImmersiveState(int newValue) {
-        final SharedPreferences prefs = mContext.getSharedPreferences(HARDWARE_IMMERSIVE_STYLE, Context.MODE_PRIVATE);
-        final ContentResolver resolver = mContext.getContentResolver();
-        boolean hasNavBar = false;
-
-        try {
-            hasNavBar = WindowManagerGlobal.getWindowManagerService().hasNavigationBar();
-        } catch (RemoteException e) {
-            Log.e(TAG, "Error getting navigation bar status");
-        }
-
-        boolean enabled = Settings.System.getInt(resolver,
-                Settings.System.DEV_FORCE_SHOW_NAVBAR, 0) == 1;
-
-        if (enabled || hasNavBar) {
-            prefs.edit().putInt(IMMERSIVE_ENABLED, newValue).commit();
-        } else {
-            prefs.edit().putInt(IMMERSIVE_DISABLED, newValue).commit();
-        }
     }
 
     private void setListPreferenceSummary(final ListPreference pref, final String value) {
