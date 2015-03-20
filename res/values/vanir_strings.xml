@@ -381,6 +381,9 @@
     <!-- Header on first screen of choose gesture flow [CHAR LIMIT=30] -->
     <string name="lockpassword_choose_your_gesture_header">Draw your gesture</string>
 
+    <!-- Weather package not installed -->
+    <string name="weather_package_not_installed">Weather requires LockClock to be installed.</string>
+
     <!-- Hardware settings -->
     <string name="performance_settings_title">Kernel performance</string>
     <string name="button_settings_title">Button action rebinding</string>
@@ -475,6 +478,7 @@
 	
 	<!-- Network traffic -->
     <string name="network_traffic_title">Network traffic</string>
+    <string name="network_traffic_summary">Show the current bandwidth speeds at set intervals</string>
     <string name="show_network_traffic_state">Status bar traffic monitor</string>
     <string name="show_network_traffic_unit">Display unit</string>
     <string name="show_network_traffic_frequency">Update interval</string>
