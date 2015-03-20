@@ -28,6 +28,7 @@ import android.provider.Settings;
 import android.provider.SearchIndexableResource;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
+import com.android.settings.cyanogenmod.SystemSettingSwitchPreference;
 import com.android.settings.cyanogenmod.qs.QSTiles;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.search.Indexable;
@@ -40,18 +41,16 @@ import java.util.List;
 public class NotificationDrawerSettings extends SettingsPreferenceFragment implements Indexable,
         Preference.OnPreferenceChangeListener {
     private static final String QUICK_PULLDOWN = "quick_pulldown";
+    private static final String KEY_WEATHER = "status_bar_show_weather";
 
     private ListPreference mQuickPulldown;
+    private SystemSettingSwitchPreference mWeather;
     private Preference mQSTiles;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.notification_drawer_settings);
-
-        if (!DeviceUtils.isPackageInstalled(getActivity(), "com.cyanogenmod.lockclock")) {
-            getPreferenceScreen().removePreference(findPreference("status_bar_show_weather"));
-        }
 
         mQSTiles = findPreference("qs_order");
     }
@@ -74,6 +73,12 @@ public class NotificationDrawerSettings extends SettingsPreferenceFragment imple
     @Override
     public void onResume() {
         super.onResume();
+
+        if (!DeviceUtils.isPackageInstalled(getActivity(), "com.cyanogenmod.lockclock")) {
+            mWeather = (SystemSettingSwitchPreference) getPreferenceScreen().findPreference("status_bar_show_weather");
+            mWeather.setEnabled(false);
+            mWeather.setSummary(R.string.weather_package_not_installed);
+        }
 
         int qsTileCount = QSTiles.determineTileCount(getActivity());
         mQSTiles.setSummary(getResources().getQuantityString(R.plurals.qs_tiles_summary,
