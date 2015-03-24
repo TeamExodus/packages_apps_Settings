@@ -141,7 +141,8 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
         rebuildItemList();
 
         setHasOptionsMenu(true);
-        if (mNewProfileMode) {
+        if (mNewProfileMode && savedInstanceState == null) {
+            // only pop this up on first creation
             requestFillProfileFromSettingsDialog();
         }
     }
