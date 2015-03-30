@@ -92,7 +92,7 @@
     <string name="key_enabled">Enable key</string>
 
     <!-- force disable hardware keys with navbar -->
-    <string name="force_disable_hardware_keys_title">Control style</string>
+    <string name="force_disable_hardware_keys_title">Single control style</string>
     <string name="force_disable_hardware_keys_summary">Force disable the hardware keys if the navigation bar is enabled</string>
 
     <!-- vanir actions and utilities -->
