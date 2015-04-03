@@ -141,10 +141,10 @@ public class QSTileHolder {
 				resourceName = "ic_qs_update";
 				stringId = R.string.vanirupdate_settings_title;
 				break;
-            case QSConstants.TILE_VISUALIZER:
+            /* case QSConstants.TILE_VISUALIZER:
                 resourceName = "ic_qs_visualizer_static";
                 stringId = R.string.qs_tile_visualizer;
-                break;
+                break; */
             case QSConstants.TILE_SCREEN_TIMEOUT:
                 resourceName = "ic_qs_screen_timeout_vector";
                 stringId = R.string.qs_tile_screen_timeout;
