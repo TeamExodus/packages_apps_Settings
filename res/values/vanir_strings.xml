@@ -526,6 +526,15 @@
 	<!-- QuickSettings 4 columns -->
     <string name="qs_four_columns_title">Show four tiles per row</string>
 
+    <!-- Wakelock blocker -->
+    <string name="wakelock_blocker_title">Wakelock blocker</string>
+    <string name="wakelock_blocker_summary">Block system wakelocks</string>
+    <string name="wakelock_blocker_save">Save</string>
+    <string name="wakelock_list_header">Available wakelocks</string>
+    <string name="wakelock_blocker_reload">Reload</string>
+    <string name="wakelock_blocker_warning_title">Proceed with caution</string>
+    <string name="wakelock_blocker_warning">Blocking wakelocks have the potential to cause instability, crashes or data loss</string>
+
     <!-- Keyguard: Quick Settings -->
     <string name="lockscreen_disable_quick_settings_title">Disable quick settings on lock screen</string>
     <string name="lockscreen_disable_quick_settings_summary">Disable access to quick settings on secure lock screens</string>
