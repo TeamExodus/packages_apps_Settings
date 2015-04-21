@@ -5991,8 +5991,8 @@
     <string name="set">Set</string>
     <string name="color_default">Default</string>
 
-    <!-- Heads Up -->
-    <string name="category_heads_up">Heads Up</string>
+    <!-- Heads up -->
+    <string name="category_heads_up">Heads up</string>
     <string name="summary_heads_up_enabled">Notifications are enabled</string>
     <string name="summary_heads_up_disabled">Notifications are disabled</string>
     <string name="add_heads_up_package">Add app</string>

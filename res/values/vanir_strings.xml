@@ -132,10 +132,10 @@
     <string name="brightness_adjust_quicksettings">Quicksettings slider</string>
 
     <!-- LCD Density -->
-    <string name="lcd_density_title">LCD Density</string>
+    <string name="lcd_density_title">LCD density</string>
     <string name="lcd_density_summary">unknown</string>
     <string name="default_lcd_density">The default density of this device is: </string>
-    <string name="current_lcd_density">"Current LCD Density: "</string>
+    <string name="current_lcd_density">"Current LCD density: "</string>
     <string name="lcd_density_wizard">LCD Density Wizard</string>
     <string name="stock_density_title">Reset density to default</string>
     <string name="stock_density_summary">"Reset the density to a default Android value"</string>
