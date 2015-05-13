@@ -3,9 +3,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-  
+
           http://www.apache.org/licenses/LICENSE-2.0
-  
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,9 +19,9 @@
         <PreferenceScreen android:key="logo1"
                 android:layout="@layout/logo_row" />
 
-        <!-- System update settings - launches activity -->
+        <!-- System update settings - launches activity
         <PreferenceScreen android:key="system_update_settings"
-                android:title="@string/system_update_settings_list_item_title" 
+                android:title="@string/system_update_settings_list_item_title"
                 android:summary="@string/system_update_settings_list_item_summary">
             <intent android:action="android.settings.SYSTEM_UPDATE_SETTINGS"
                     android:targetPackage="com.cyngn.fota"
@@ -35,14 +35,14 @@
                     android:targetClass="@string/additional_system_update_menu" />
         </PreferenceScreen>
 
-        <!-- CyanogenMod Updates -->
+        <!-- CyanogenMod Updates
         <PreferenceScreen android:key="cm_updates"
                 android:title="@string/cmupdate_settings_title"
                 android:summary="@string/system_update_settings_list_item_summary">
             <intent android:action="android.intent.action.MAIN"
                     android:targetPackage="com.cyanogenmod.updater"
                     android:targetClass="com.cyanogenmod.updater.UpdatesSettings" />
-        </PreferenceScreen>
+        </PreferenceScreen>  -->
 
         <!-- Advanced mode -->
         <com.android.settings.cyanogenmod.SecureSettingSwitchPreference
@@ -52,7 +52,7 @@
 
         <!-- Device status - launches activity -->
         <PreferenceScreen android:key="status_info"
-                android:title="@string/device_status" 
+                android:title="@string/device_status"
                 android:summary="@string/device_status_summary">
             <intent android:action="android.intent.action.MAIN"
                     android:targetPackage="com.android.settings"
@@ -66,11 +66,75 @@
             android:fragment="com.android.settings.cyanogenmod.ContributorsCloud" >
         </PreferenceScreen> -->
 
+        <!-- Feedback on the device -->
+        <PreferenceScreen android:key="device_feedback"
+                android:title="@string/device_feedback">
+        </PreferenceScreen>
+
+       <Preference android:key="device_name"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/device_name"
+                android:summary="@string/device_info_default"/>
+
+        <!-- Device hardware model -->
+        <Preference android:key="device_model"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/device_model"
+                android:summary="@string/device_info_default"/>
+
+        <!-- Mod version -->
+        <Preference android:key="mod_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/mod_version"
+                android:summary="@string/mod_version_default" />
+
+        <!-- Device firmware version -->
+        <Preference android:key="firmware_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/firmware_version"
+                android:summary="@string/device_info_default"/>
+
+        <!-- Device FCC equipment id -->
+        <Preference android:key="fcc_equipment_id"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/fcc_equipment_id"
+                android:summary="@string/device_info_default"/>
+
+        <!-- Device Baseband version -->
+        <Preference android:key="baseband_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/baseband_version"
+                android:summary="@string/device_info_default"/>
+
+        <!-- Device Kernel version -->
+        <Preference android:key="kernel_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/kernel_version"
+                android:summary="@string/device_info_default"/>
+
+        <!-- Build date -->
+        <Preference android:key="build_date"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/build_date"
+                android:summary="@string/build_date_default" />
+
+        <!-- Detailed build version -->
+        <Preference android:key="build_number"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/build_number"
+                android:summary="@string/device_info_default"/>
+
+        <!-- SELinux status information -->
+        <Preference android:key="selinux_status"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/selinux_status"
+                android:summary="@string/selinux_status_enforcing"/>
+
         <!-- Legal Information -->
         <PreferenceScreen
                 android:key="container"
                 android:title="@string/legal_information">
-                    
+
             <!-- Note: The titles given here probably won't be used.  Instead, we programmatically
                        fill the title with the label of the activity with the corresponding action.
                        If there is not an activity for an action, the item will be removed from the
@@ -116,69 +180,5 @@
                 android:title="@string/regulatory_information">
             <intent android:action="android.settings.SHOW_REGULATORY_INFO" />
         </PreferenceScreen>
-
-        <!-- Feedback on the device -->
-        <PreferenceScreen android:key="device_feedback"
-                android:title="@string/device_feedback">
-        </PreferenceScreen>
-
-       <Preference android:key="device_name"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/device_name"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Device hardware model -->
-        <Preference android:key="device_model"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/device_model"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Mod version -->
-        <Preference android:key="mod_version"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/mod_version"
-                android:summary="@string/mod_version_default" />
-
-        <!-- Device firmware version -->
-        <Preference android:key="firmware_version" 
-                style="?android:preferenceInformationStyle"
-                android:title="@string/firmware_version"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Device FCC equipment id -->
-        <Preference android:key="fcc_equipment_id"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/fcc_equipment_id"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Device Baseband version -->
-        <Preference android:key="baseband_version" 
-                style="?android:preferenceInformationStyle"
-                android:title="@string/baseband_version"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Device Kernel version -->
-        <Preference android:key="kernel_version" 
-                style="?android:preferenceInformationStyle"
-                android:title="@string/kernel_version"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Build date -->
-        <Preference android:key="build_date"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/build_date"
-                android:summary="@string/build_date_default" />
-
-        <!-- Detailed build version -->
-        <Preference android:key="build_number" 
-                style="?android:preferenceInformationStyle"
-                android:title="@string/build_number"
-                android:summary="@string/device_info_default"/>
-
-        <!-- SELinux status information -->
-        <Preference android:key="selinux_status"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/selinux_status"
-                android:summary="@string/selinux_status_enforcing"/>
 
 </PreferenceScreen>
