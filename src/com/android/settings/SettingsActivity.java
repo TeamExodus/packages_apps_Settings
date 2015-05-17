@@ -1270,8 +1270,9 @@ public class SettingsActivity extends Activity
                     try {
                         supported = (getPackageManager().getPackageInfo("eu.chainfire.supersu", 0).versionCode >= 185);
                     } catch (PackageManager.NameNotFoundException e) {
+                        //supersu not supported. !
                     }
-                    if (!supported || !showDev || um.hasUserRestriction(
+                    if (!supported || um.hasUserRestriction(
                             UserManager.DISALLOW_DEBUGGING_FEATURES)) {
                         removeTile = true;
                     }
