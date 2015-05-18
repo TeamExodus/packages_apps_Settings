@@ -35,6 +35,7 @@ import android.os.Vibrator;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.preference.CheckBoxPreference;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings.Global;
 import android.provider.Settings.System;
@@ -84,7 +85,7 @@ public class OtherSoundSettings extends SettingsPreferenceFragment implements In
     private static final String POWER_NOTIFICATIONS_SILENT_URI = "silent";
 
     private SwitchPreference mPowerSounds;
-    private SwitchPreference mPowerSoundsVibrate;
+    private CheckBoxPreference mPowerSoundsVibrate;
     private Preference mPowerSoundsRingtone;
 
     private static final SettingPref PREF_DIAL_PAD_TONES = new SettingPref(
@@ -200,7 +201,7 @@ public class OtherSoundSettings extends SettingsPreferenceFragment implements In
         mPowerSounds = (SwitchPreference) findPreference(KEY_POWER_NOTIFICATIONS);
         mPowerSounds.setChecked(Global.getInt(getContentResolver(),
                 Global.POWER_NOTIFICATIONS_ENABLED, 0) != 0);
-        mPowerSoundsVibrate = (SwitchPreference) findPreference(KEY_POWER_NOTIFICATIONS_VIBRATE);
+        mPowerSoundsVibrate = (CheckBoxPreference) findPreference(KEY_POWER_NOTIFICATIONS_VIBRATE);
         mPowerSoundsVibrate.setChecked(Global.getInt(getContentResolver(),
                 Global.POWER_NOTIFICATIONS_VIBRATE, 0) != 0);
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
