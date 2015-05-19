@@ -24,7 +24,6 @@ import com.android.settings.DateTimeSettings;
 import com.android.settings.DevelopmentSettings;
 import com.android.settings.DeviceInfoSettings;
 import com.android.settings.DisplaySettings;
-import com.android.settings.exodus.RomControls;
 import com.android.settings.HomeSettings;
 import com.android.settings.ScreenPinningSettings;
 import com.android.settings.PrivacySettings;
@@ -304,14 +303,8 @@ public final class SearchIndexableResources {
                         com.android.settings.cyanogenmod.PrivacySettings.class.getName(),
                         R.drawable.ic_settings_privacy));
 
-        sResMap.put(com.android.settings.exodus.RomControls.class.getName(),
-                new SearchIndexableResource(
-                        Ranking.getRankForClassName(
-                                com.android.settings.exodus.RomControls.class.getName()),
-                        R.xml.rom_controls,
-                        com.android.settings.exodus.RomControls.class.getName(),
-                        R.drawable.ic_settings_home));
-                        
+        //Additional Exodus Searchindexes
+        com.android.exodussettings.ExodusSearchHelper.AddExodusSearches(sResMap);
     }
 
     private SearchIndexableResources() {
