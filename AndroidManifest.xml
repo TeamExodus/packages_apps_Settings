@@ -2366,7 +2366,7 @@
         </receiver>
 
         <!-- EXODUS #RomControls -->
-        <activity android:name=".exodus.RomControls" />
+        <activity android:name="com.android.exodussettings.RomControls" />
 
     </application>
 </manifest>
