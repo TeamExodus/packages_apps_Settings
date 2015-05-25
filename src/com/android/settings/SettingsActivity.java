@@ -71,6 +71,7 @@ import android.widget.SearchView;
 
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.XmlUtils;
+import com.android.internal.util.exodus.SettingsUtils;
 import com.android.settings.accessibility.AccessibilitySettings;
 import com.android.settings.accessibility.CaptionPropertiesFragment;
 import com.android.settings.accounts.AccountSettings;
@@ -991,6 +992,16 @@ public class SettingsActivity extends Activity
         return f;
     }
 
+    private int getXmlResource() {
+        ContentResolver resolver=this.getContentResolver();
+        if (SettingsUtils.isMorphCyanogenMod(resolver)) {
+            return R.xml.dashboard_categories;
+        } else if (SettingsUtils.IsMorphAosp(resolver)) {
+            return R.xml.aosp_dashboard_categories;
+        }
+        return R.xml.exodus_dashboard_categories;
+    }
+
     /**
      * Called when the activity needs its list of categories/tiles built.
      *
@@ -998,19 +1009,7 @@ public class SettingsActivity extends Activity
      */
     private void buildDashboardCategories(List<DashboardCategory> categories) {
         categories.clear();
-        int morphSelected = Integer.valueOf(SystemProperties.get(MORPH_ACCESS_PROPERTY, "0"));
-        /**
-         * #MorphRom
-         * TODO: Move AOSP into its own folder like ExodusSettings
-         * TODO: replace with Dave or Martin coded constant class to make sure it aligned.
-         */
-        if(2 == morphSelected){ //Aosp Settings >> Currently linked to Cyanogen !
-            loadCategoriesFromResource(R.xml.aosp_dashboard_categories, categories);
-        } else if(0 == morphSelected){ //Exodus DashBoard Settings
-            loadCategoriesFromResource(R.xml.exodus_dashboard_categories, categories);
-        } else { //1 or default >> always point to CyanogenMod
-            loadCategoriesFromResource(R.xml.dashboard_categories, categories);
-        }
+        loadCategoriesFromResource(getXmlResource(), categories);
         updateTilesList(categories);
     }
 
