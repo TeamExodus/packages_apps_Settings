@@ -16,15 +16,16 @@
 
 package com.android.settings.notification;
 
-import android.os.UserHandle;
-
+import android.content.ContentResolver;
 import android.content.Context;
 import android.hardware.CmHardwareManager;
 import android.os.Bundle;
+import android.os.UserHandle;
 import android.preference.PreferenceCategory;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings;
 import android.util.Log;
+import com.android.internal.util.exodus.SettingsUtils;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
@@ -40,7 +41,6 @@ public class NotificationManagerSettings extends SettingsPreferenceFragment
     private static final String TAG = NotificationManagerSettings.class.getSimpleName();
 
     private static final String KEY_LOCK_SCREEN_NOTIFICATIONS = "lock_screen_notifications";
-
     private static final String KEY_CATEGORY_LIGHTS = "lights";
     private static final String KEY_NOTIFICATION_LIGHT = "notification_light";
     private static final String KEY_BATTERY_LIGHT = "battery_light";
@@ -49,14 +49,49 @@ public class NotificationManagerSettings extends SettingsPreferenceFragment
     private int mLockscreenSelectedValue;
     private DropDownPreference mLockscreen;
 
+    private static int getXmlResource(Context context) {
+        if (SettingsUtils.isMorphCyanogenMod(context.getContentResolver())) {
+            return R.xml.notification_manager_settings;
+        }
+        return R.xml.exodus_notification_manager_settings;
+    }
+
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.notification_manager_settings);
+        addPreferencesFromResource(getXmlResource(getActivity()));
         mSecure = new LockPatternUtils(getActivity()).isSecure();
         initLockscreenNotifications();
+        onCreateSpecifics(getActivity().getContentResolver());
+    }
+
+    private void onCreateSpecifics(ContentResolver resolver) {
+        if (SettingsUtils.isMorphExodus(resolver)) {
+            onCreateExodusSpecific();
+        }
+    }    
+    
+    private void onCreateExodusSpecific() {
         initPulse((PreferenceCategory) findPreference(KEY_CATEGORY_LIGHTS));
     }
+    
+    // === Pulse notification light ===
+
+    private void initPulse(PreferenceCategory parent) {
+        if (!getResources().getBoolean(
+                com.android.internal.R.bool.config_intrusiveNotificationLed)) {
+            parent.removePreference(parent.findPreference(KEY_NOTIFICATION_LIGHT));
+        }
+        if (!getResources().getBoolean(
+                com.android.internal.R.bool.config_intrusiveBatteryLed)
+                || UserHandle.myUserId() != UserHandle.USER_OWNER) {
+            parent.removePreference(parent.findPreference(KEY_BATTERY_LIGHT));
+        }
+        if (parent.getPreferenceCount() == 0) {
+            getPreferenceScreen().removePreference(parent);
+        }
+    }
+
 
     // === Lockscreen (public / private) notifications ===
 
@@ -118,23 +153,6 @@ public class NotificationManagerSettings extends SettingsPreferenceFragment
                 Settings.Secure.LOCK_SCREEN_ALLOW_PRIVATE_NOTIFICATIONS, 0) != 0;
     }
 
-    // === Pulse notification light ===
-
-    private void initPulse(PreferenceCategory parent) {
-        if (!getResources().getBoolean(
-                com.android.internal.R.bool.config_intrusiveNotificationLed)) {
-            parent.removePreference(parent.findPreference(KEY_NOTIFICATION_LIGHT));
-        }
-        if (!getResources().getBoolean(
-                com.android.internal.R.bool.config_intrusiveBatteryLed)
-                || UserHandle.myUserId() != UserHandle.USER_OWNER) {
-            parent.removePreference(parent.findPreference(KEY_BATTERY_LIGHT));
-        }
-        if (parent.getPreferenceCount() == 0) {
-            getPreferenceScreen().removePreference(parent);
-        }
-    }
-
     public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
             new BaseSearchIndexProvider() {
                 @Override
@@ -144,7 +162,7 @@ public class NotificationManagerSettings extends SettingsPreferenceFragment
                             new ArrayList<SearchIndexableResource>();
 
                     SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.notification_manager_settings;
+                    sir.xmlResId = getXmlResource(context);
                     result.add(sir);
 
                     return result;
@@ -152,18 +170,20 @@ public class NotificationManagerSettings extends SettingsPreferenceFragment
 
               @Override
                 public List<String> getNonIndexableKeys(Context context) {
-                    CmHardwareManager cmHardwareManager =
-                        (CmHardwareManager) context.getSystemService(Context.CMHW_SERVICE);
                     ArrayList<String> result = new ArrayList<String>();
-                    if (!context.getResources().getBoolean(
-                            com.android.internal.R.bool.config_intrusiveNotificationLed)) {
-                        result.add(KEY_NOTIFICATION_LIGHT);
-                    }
-                    if (!context.getResources().getBoolean(
-                            com.android.internal.R.bool.config_intrusiveBatteryLed)) {
-                        result.add(KEY_BATTERY_LIGHT);
+                    if (SettingsUtils.isMorphExodus(context.getContentResolver())) {
+                        CmHardwareManager cmHardwareManager =
+                            (CmHardwareManager) context.getSystemService(Context.CMHW_SERVICE);
+                        if (!context.getResources().getBoolean(
+                                com.android.internal.R.bool.config_intrusiveNotificationLed)) {
+                            result.add(KEY_NOTIFICATION_LIGHT);
+                        }
+                        if (!context.getResources().getBoolean(
+                                com.android.internal.R.bool.config_intrusiveBatteryLed)) {
+                            result.add(KEY_BATTERY_LIGHT);
+                        }
                     }
                     return result;
-                }
+                }                
             };
 }
