@@ -22,6 +22,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
+import com.android.internal.util.exodus.SettingsUtils;
 
 public class IndexDatabaseHelper extends SQLiteOpenHelper {
 
@@ -29,6 +30,8 @@ public class IndexDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "search_index.db";
     private static final int DATABASE_VERSION = 118;
+    private static final String PREF_FILE = "morphmode";
+    private static final String MORPH_MODE = "morph_mode";
 
     public interface Tables {
         public static final String TABLE_PREFS_INDEX = "prefs_index";
@@ -132,8 +135,9 @@ public class IndexDatabaseHelper extends SQLiteOpenHelper {
             "SELECT " + MetaColumns.BUILD + " FROM " + Tables.TABLE_META_INDEX + " LIMIT 1;";
 
     private static IndexDatabaseHelper sSingleton;
-
-    public static synchronized IndexDatabaseHelper getInstance(Context context) {
+    private Context ownerContext;
+    
+    public static synchronized IndexDatabaseHelper getInstance(Context context) {        
         if (sSingleton == null) {
             sSingleton = new IndexDatabaseHelper(context);
         }
@@ -142,6 +146,7 @@ public class IndexDatabaseHelper extends SQLiteOpenHelper {
 
     public IndexDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        ownerContext = context;
     }
 
     @Override
@@ -157,13 +162,25 @@ public class IndexDatabaseHelper extends SQLiteOpenHelper {
         Log.i(TAG, "Bootstrapped database");
     }
 
+    private int getCurrentMorph() {
+        int currentversion = SettingsUtils.MORPH_MODE_EXODUS;
+        if (ownerContext != null) {
+            currentversion=SettingsUtils.CurrentMorphMode(ownerContext.getContentResolver());
+        } else {
+            Log.i(TAG, "no context available so asuming Exodus as current morphmode");
+        }
+        return currentversion;
+    }
+    
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
 
         Log.i(TAG, "Using schema version: " + db.getVersion());
-
-        if (!Build.VERSION.INCREMENTAL.equals(getBuildVersion(db))) {
+        int currentversion = getCurrentMorph();
+        int databaseversion = ownerContext.getSharedPreferences(PREF_FILE,
+                            Context.MODE_PRIVATE).getInt(MORPH_MODE,-1);
+        if (!Build.VERSION.INCREMENTAL.equals(getBuildVersion(db)) || currentversion != databaseversion ) {
             Log.w(TAG, "Index needs to be rebuilt as build-version is not the same");
             // We need to drop the tables and recreate them
             reconstruct(db);
@@ -193,6 +210,11 @@ public class IndexDatabaseHelper extends SQLiteOpenHelper {
     private void reconstruct(SQLiteDatabase db) {
         dropTables(db);
         bootstrapDB(db);
+        if (ownerContext != null ) {
+            ownerContext.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE).edit()
+                    .putInt(MORPH_MODE, getCurrentMorph())
+                    .apply();
+        }
     }
 
     private String getBuildVersion(SQLiteDatabase db) {
