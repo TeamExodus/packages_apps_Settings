@@ -236,7 +236,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private void onCreateSpecifics(ContentResolver resolver) {
         if (SettingsUtils.isMorphCyanogenMod(resolver)) {
             onCreateCmSpecific();
-        } else if (SettingsUtils.IsMorphAosp(resolver)) {
+        } else if (SettingsUtils.isMorphAosp(resolver)) {
             onCreateAospSpecific();
         // if nothing else applies, it's Exodus
         } else {
