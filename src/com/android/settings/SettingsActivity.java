@@ -996,7 +996,7 @@ public class SettingsActivity extends Activity
         ContentResolver resolver=this.getContentResolver();
         if (SettingsUtils.isMorphCyanogenMod(resolver)) {
             return R.xml.dashboard_categories;
-        } else if (SettingsUtils.IsMorphAosp(resolver)) {
+        } else if (SettingsUtils.isMorphAosp(resolver)) {
             return R.xml.aosp_dashboard_categories;
         }
         return R.xml.exodus_dashboard_categories;
