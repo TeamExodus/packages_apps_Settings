@@ -469,7 +469,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
      */
     private void writeMorphAccessOptions(Object newValue) {
         String value = (String) newValue;
-        SettingsUtils.setCurrentMorphMode(getActivity().getContentResolver(),Integer.valueOf(value));
+        SettingsUtils.setCurrentMorphMode(getActivity(),Integer.valueOf(value));
         updateMorphOptions();
     }
 
