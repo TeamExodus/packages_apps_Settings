@@ -20,14 +20,21 @@
         android:key="romcontrols"
         android:title="@string/rom_category_1">
 
-        <!-- #RomControl LCD Density -->
+        <!-- Home -->
+        <PreferenceScreen
+                android:id="@+id/home_settings"
+                android:title="@string/home_settings"
+                android:summary="@string/home_settings_summary"
+                android:fragment="com.android.settings.HomeSettings"
+                />
 
+        <!-- #RomControl LCD Density -->
        <ListPreference
-            android:key="lcd_density"
-            android:title="@string/lcd_density"
-            android:summary="@string/lcd_density_summary"
-            android:persistent="false"
-            settings:advanced="true" />
+                android:key="lcd_density"
+                android:title="@string/lcd_density"
+                android:summary="@string/lcd_density_summary"
+                android:persistent="false"
+                settings:advanced="true" />
 
     </PreferenceCategory>
 
