@@ -2367,6 +2367,8 @@
 
         <!-- EXODUS #RomControls -->
         <activity android:name="com.android.exodussettings.RomControls" />
+        <activity android:name="com.android.exodussettings.exodus.ExodusInterface" />
+        <activity android:name="com.android.exodussettings.exodus.navbar.NavbarTabHostFragment" />
 
     </application>
 </manifest>
