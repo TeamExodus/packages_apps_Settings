@@ -34,7 +34,7 @@
     <!-- #MorphRom parameters -->
     <string name="morph_title">Morph</string>
     <string name="morph_exodus">Exodus</string>
-    <string name="morph_aosp">Aosp</string>
+    <string name="morph_aosp">AOSP</string>
     <string name="morph_cm">CyanogenMod</string>
 
 </resources>
