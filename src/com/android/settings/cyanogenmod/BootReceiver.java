@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.os.SystemProperties;
+import android.provider.Settings;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -36,6 +37,8 @@ import com.android.settings.livedisplay.DisplayGamma;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.android.internal.util.exodus.SettingsUtils.*;
 
 public class BootReceiver extends BroadcastReceiver {
 
@@ -67,12 +70,17 @@ public class BootReceiver extends BroadcastReceiver {
             }
         }
 
-        /* Restore the hardware tunable values */
-        DisplaySettings.restore(ctx);
-        ButtonSettings.restoreKeyDisabler(ctx);
-        DisplayGamma.restore(ctx);
-        VibratorIntensity.restore(ctx);
-        InputMethodAndLanguageSettings.restore(ctx);
+        int mExodusMode = Settings.Exodus.getInt(ctx.getContentResolver(),
+                Settings.Exodus.MORPH_MODE, MORPH_MODE_EXODUS);
+
+        if (mExodusMode != MORPH_MODE_AOSP) {
+            /* Restore the hardware tunable values */
+            DisplaySettings.restore(ctx);
+            ButtonSettings.restoreKeyDisabler(ctx);
+            DisplayGamma.restore(ctx);
+            VibratorIntensity.restore(ctx);
+            InputMethodAndLanguageSettings.restore(ctx);
+        }
     }
 
     private void initFreqCapFiles(Context ctx)
