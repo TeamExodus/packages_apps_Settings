@@ -40,6 +40,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.util.Xml;
+//Add Exodus stuff
+import com.android.internal.util.exodus.SettingsUtils;
+import com.android.exodussettings.ExodusSearchHelper;
+//End add Exodus stuff
 import com.android.settings.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -203,6 +207,8 @@ public class Index {
     private final AtomicBoolean mIsAvailable = new AtomicBoolean(false);
     private final UpdateData mDataToProcess = new UpdateData();
     private Context mContext;
+    //mCurrentMorph saves the current morph state
+    private int mCurrentMorph;
     private final String mBaseAuthority;
 
     /**
@@ -218,12 +224,13 @@ public class Index {
     }
 
     public Index(Context context, String baseAuthority) {
-        mContext = context;
+        setContext(context);
         mBaseAuthority = baseAuthority;
     }
 
     public void setContext(Context context) {
         mContext = context;
+        mCurrentMorph=SettingsUtils.CurrentMorphMode(context.getContentResolver());
     }
 
     public boolean isAvailable() {
@@ -398,7 +405,9 @@ public class Index {
         synchronized (mDataToProcess) {
             final int count = array.length;
             for (int n = 0; n < count; n++) {
-                mDataToProcess.dataToUpdate.add(array[n]);
+                if (array[n].rank != ExodusSearchHelper.RANK_EXODUS || mCurrentMorph == SettingsUtils.MORPH_MODE_EXODUS) {
+                    mDataToProcess.dataToUpdate.add(array[n]);
+                }
             }
         }
     }
@@ -556,29 +565,29 @@ public class Index {
                 while (cursor.moveToNext()) {
                     final int providerRank = cursor.getInt(COLUMN_INDEX_XML_RES_RANK);
                     final int rank = (providerRank > 0) ? baseRank + providerRank : baseRank;
+                    if (rank != ExodusSearchHelper.RANK_EXODUS || mCurrentMorph == SettingsUtils.MORPH_MODE_EXODUS) {
+                        final int xmlResId = cursor.getInt(COLUMN_INDEX_XML_RES_RESID);
 
-                    final int xmlResId = cursor.getInt(COLUMN_INDEX_XML_RES_RESID);
+                        final String className = cursor.getString(COLUMN_INDEX_XML_RES_CLASS_NAME);
+                        final int iconResId = cursor.getInt(COLUMN_INDEX_XML_RES_ICON_RESID);
 
-                    final String className = cursor.getString(COLUMN_INDEX_XML_RES_CLASS_NAME);
-                    final int iconResId = cursor.getInt(COLUMN_INDEX_XML_RES_ICON_RESID);
+                        final String action = cursor.getString(COLUMN_INDEX_XML_RES_INTENT_ACTION);
+                        final String targetPackage = cursor.getString(
+                                COLUMN_INDEX_XML_RES_INTENT_TARGET_PACKAGE);
+                        final String targetClass = cursor.getString(
+                                COLUMN_INDEX_XML_RES_INTENT_TARGET_CLASS);
 
-                    final String action = cursor.getString(COLUMN_INDEX_XML_RES_INTENT_ACTION);
-                    final String targetPackage = cursor.getString(
-                            COLUMN_INDEX_XML_RES_INTENT_TARGET_PACKAGE);
-                    final String targetClass = cursor.getString(
-                            COLUMN_INDEX_XML_RES_INTENT_TARGET_CLASS);
-
-                    SearchIndexableResource sir = new SearchIndexableResource(packageContext);
-                    sir.rank = rank;
-                    sir.xmlResId = xmlResId;
-                    sir.className = className;
-                    sir.packageName = packageName;
-                    sir.iconResId = iconResId;
-                    sir.intentAction = action;
-                    sir.intentTargetPackage = targetPackage;
-                    sir.intentTargetClass = targetClass;
-
-                    addIndexableData(sir);
+                        SearchIndexableResource sir = new SearchIndexableResource(packageContext);
+                        sir.rank = rank;
+                        sir.xmlResId = xmlResId;
+                        sir.className = className;
+                        sir.packageName = packageName;
+                        sir.iconResId = iconResId;
+                        sir.intentAction = action;
+                        sir.intentTargetPackage = targetPackage;
+                        sir.intentTargetClass = targetClass;
+                        addIndexableData(sir);
+                    }
                 }
             }
         } finally {
@@ -973,21 +982,23 @@ public class Index {
             final int resSize = resList.size();
             for (int i = 0; i < resSize; i++) {
                 SearchIndexableResource item = resList.get(i);
+                if (item.rank != ExodusSearchHelper.RANK_EXODUS || mCurrentMorph == SettingsUtils.MORPH_MODE_EXODUS) {
 
-                // Should be the same locale as the one we are processing
-                if (!item.locale.toString().equalsIgnoreCase(localeStr)) {
-                    continue;
+                    // Should be the same locale as the one we are processing
+                    if (!item.locale.toString().equalsIgnoreCase(localeStr)) {
+                        continue;
+                    }
+
+                    final int itemIconResId = (item.iconResId == 0) ? iconResId : item.iconResId;
+                    final int itemRank = (item.rank == 0) ? rank : item.rank;
+                    String itemClassName = (TextUtils.isEmpty(item.className))
+                            ? className : item.className;
+
+                    indexFromResource(context, database, localeStr,
+                            item.xmlResId, itemClassName, itemIconResId, itemRank,
+                            item.intentAction, item.intentTargetPackage,
+                            item.intentTargetClass, nonIndexableKeys);
                 }
-
-                final int itemIconResId = (item.iconResId == 0) ? iconResId : item.iconResId;
-                final int itemRank = (item.rank == 0) ? rank : item.rank;
-                String itemClassName = (TextUtils.isEmpty(item.className))
-                        ? className : item.className;
-
-                indexFromResource(context, database, localeStr,
-                        item.xmlResId, itemClassName, itemIconResId, itemRank,
-                        item.intentAction, item.intentTargetPackage,
-                        item.intentTargetClass, nonIndexableKeys);
             }
         }
     }
