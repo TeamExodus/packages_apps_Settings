@@ -15,8 +15,17 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Categories -->
+    <string name="support_packages">Support</string>
+
     <!-- SuperSU -->
     <string name="supersu_title">SuperSU</string>
+    <string name="supersu_summary">Super user binary options</string>
+
+    <!-- Exodus Updater -->
+    <string name="exodusupdate_settings_title">Exodus updates</string>
+    <string name="exodusupdate_settings_alternate_title">System updates</string>
+    <string name="exodusupdate_settings_summary">Check for, view or install available updates</string>
 
     <!-- Screen shutter sound -->
     <string name="screenshot_shutter_sound_title">Screenshot shutter sound</string>
