@@ -15,17 +15,26 @@
  */
 package com.android.settings.cyanogenmod;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings;
+import android.provider.Settings.SettingNotFoundException;
 import android.telephony.TelephonyManager;
+import android.text.Spannable;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.EditText;
 import android.text.format.DateFormat;
 import android.view.View;
 
@@ -39,6 +48,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.android.internal.util.exodus.SettingsUtils;
+import static com.android.internal.util.exodus.SettingsUtils.*;
+
 public class StatusBarSettings extends SettingsPreferenceFragment
         implements OnPreferenceChangeListener, Indexable {
 
@@ -48,6 +60,7 @@ public class StatusBarSettings extends SettingsPreferenceFragment
     private static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
     private static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
     private static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
+    private static final String KEY_STATUS_BAR_GREETING = "status_bar_greeting";
 
     private static final int STATUS_BAR_BATTERY_STYLE_HIDDEN = 4;
     private static final int STATUS_BAR_BATTERY_STYLE_TEXT = 6;
@@ -56,13 +69,32 @@ public class StatusBarSettings extends SettingsPreferenceFragment
     private ListPreference mStatusBarAmPm;
     private ListPreference mStatusBarBattery;
     private ListPreference mStatusBarBatteryShowPercent;
+    private SwitchPreference mStatusBarGreeting;
+
+    private String mCustomGreetingText = "";
+    private int mGreetingMode;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        addPreferencesFromResource(R.xml.status_bar_settings);
-
         ContentResolver resolver = getActivity().getContentResolver();
+
+        int exodusMode = SettingsUtils.CurrentMorphMode(resolver);
+        switch (exodusMode) {
+			case MORPH_MODE_AOSP:
+			case MORPH_MODE_CYANOGENMOD:
+                addPreferencesFromResource(R.xml.status_bar_settings);
+                break;
+            case MORPH_MODE_EXODUS:
+                addPreferencesFromResource(R.xml.exodus_status_bar_settings);
+
+				mStatusBarGreeting = (SwitchPreference) findPreference(KEY_STATUS_BAR_GREETING);
+				mCustomGreetingText = Settings.System.getString(resolver, Settings.System.STATUS_BAR_GREETING);
+				mGreetingMode = Settings.System.getInt(resolver, Settings.System.STATUS_BAR_GREETING_MODE, 0);
+				boolean greeting = mCustomGreetingText != null && !TextUtils.isEmpty(mCustomGreetingText) || mGreetingMode == 0;
+				mStatusBarGreeting.setChecked(greeting);
+		        break;
+		}
 
         mStatusBarClock = (ListPreference) findPreference(STATUS_BAR_CLOCK_STYLE);
         mStatusBarAmPm = (ListPreference) findPreference(STATUS_BAR_AM_PM);
@@ -115,6 +147,47 @@ public class StatusBarSettings extends SettingsPreferenceFragment
                         R.array.status_bar_clock_style_entries_rtl));
                 mStatusBarClock.setSummary(mStatusBarClock.getEntry());
         }
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+       if (preference == mStatusBarGreeting) {
+		   final ContentResolver resolver = getActivity().getContentResolver();
+           boolean enabled = mStatusBarGreeting.isChecked();
+
+           if (enabled) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle(R.string.status_bar_greeting_title);
+                alert.setMessage(R.string.status_bar_greeting_dialog);
+
+                // Set an EditText view to get user input
+                final EditText input = new EditText(getActivity());
+                input.setText(mCustomGreetingText != null ? mCustomGreetingText : "EXODUS ANDROID");
+                alert.setView(input);
+                alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = ((Spannable) input.getText()).toString();
+                        Settings.System.putString(resolver,
+                                Settings.System.STATUS_BAR_GREETING, value);
+                        updateCheckState(value);
+                    }
+                });
+                alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+            } else {
+                Settings.System.putInt(resolver,
+                                Settings.System.STATUS_BAR_GREETING_MODE, 1);
+                Settings.System.putString(resolver,
+                                Settings.System.STATUS_BAR_GREETING, "");
+            }
+        }
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
     @Override
@@ -184,4 +257,8 @@ public class StatusBarSettings extends SettingsPreferenceFragment
                     return result;
                 }
             };
+
+    private void updateCheckState(String value) {
+        if (value == null || TextUtils.isEmpty(value)) mStatusBarGreeting.setChecked(false);
+    }
 }
