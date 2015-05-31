@@ -36,7 +36,16 @@
                 android:persistent="false"
                 settings:advanced="true" />
 
+       <!-- #AdBlocker swith-->
+       <SwitchPreference
+                android:key="ad_blocker"
+                android:title="@string/hfm_disable_ads_title"
+                android:summary="@string/hfm_disable_ads_summary"
+                android:icon="@drawable/ic_ad_blocker"
+                android:persistent="false" />
+
     </PreferenceCategory>
+
     <PreferenceCategory
         android:title="@string/support_packages" />
 
