@@ -2211,6 +2211,13 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name="com.android.exodussettings.exodus.HardwareSettings" />
+        <receiver android:name="com.android.exodussettings.KeyDisablerReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="exodus.android.settings.TOGGLE_NAVBAR_FOR_HARDKEYS" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".cyanogenmod.UserChangedReceiver" android:enabled="true">
             <intent-filter >
                 <action android:name="com.cyanogenmod.action.UserChanged" />
@@ -2346,6 +2353,7 @@
         <activity android:name="com.android.exodussettings.RomControls" />
         <activity android:name="com.android.exodussettings.exodus.ExodusInterface" />
         <activity android:name="com.android.exodussettings.exodus.navbar.NavbarTabHostFragment" />
+        <activity android:name="com.android.exodussettings.exodus.buttons.ButtonsTabHost" />
 
     </application>
 </manifest>

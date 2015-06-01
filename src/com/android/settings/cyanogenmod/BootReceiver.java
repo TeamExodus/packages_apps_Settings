@@ -35,6 +35,8 @@ import com.android.settings.inputmethod.InputMethodAndLanguageSettings;
 import com.android.settings.livedisplay.DisplayColor;
 import com.android.settings.livedisplay.DisplayGamma;
 
+import com.android.exodussettings.exodus.HardwareSettings;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,11 +80,13 @@ public class BootReceiver extends BroadcastReceiver {
             DisplaySettings.restore(ctx);
             ButtonSettings.restoreKeyDisabler(ctx);
             DisplayGamma.restore(ctx);
+            com.android.exodussettings.RomControls.restore(ctx);
             VibratorIntensity.restore(ctx);
             InputMethodAndLanguageSettings.restore(ctx);
         }
-        // Let user enjoy with SELinux permissive mode in AOSP too ... :)
-        com.android.exodussettings.RomControls.restore(ctx);
+        if (mExodusMode == MORPH_MODE_EXODUS) {
+			HardwareSettings.restore(ctx);
+		}
     }
 
     private void initFreqCapFiles(Context ctx)
