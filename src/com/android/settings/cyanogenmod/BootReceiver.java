@@ -81,6 +81,8 @@ public class BootReceiver extends BroadcastReceiver {
             VibratorIntensity.restore(ctx);
             InputMethodAndLanguageSettings.restore(ctx);
         }
+        // Let user enjoy with SELinux permissive mode in AOSP too ... :)
+        com.android.exodussettings.RomControls.restore(ctx);
     }
 
     private void initFreqCapFiles(Context ctx)

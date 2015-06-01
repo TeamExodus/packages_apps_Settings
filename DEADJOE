@@ -1,0 +1,18 @@
+
+*** Modified files in JOE when it aborted on Mon Jun  1 00:29:57 2015
+*** JOE was aborted by signal 15
+
+*** File '/home/raja/Desktop/Exodus/packages/apps/Settings/.git/COMMIT_EDITMSG'
+Refactor ROM Controls [1/2]: remove the rom_controls from settings.
+
+Change-Id: I69a948a31a422402aa367f78daa3929ca8191b7b
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Sat May 30 22:10:18 2015 -0700
+#
+# HEAD detached from 5203056
+# Changes to be committed:
+#	deleted:    res/xml/rom_controls.xml
+#
