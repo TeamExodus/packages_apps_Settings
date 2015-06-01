@@ -716,6 +716,13 @@ public class SettingsActivity extends Activity
         setTitleFromBackStack();
     }
 
+    @Override
+    public boolean onSearchRequested() { // Search key pressed.
+        mSearchMenuItem.expandActionView();
+        switchToSearchResultsFragmentIfNeeded();
+        return true;
+    }
+
     private int setTitleFromBackStack() {
         final int count = getFragmentManager().getBackStackEntryCount();
 
@@ -1223,10 +1230,6 @@ public class SettingsActivity extends Activity
                     if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
                         removeTile = true;
                     } else if (TelephonyManager.getDefault().getPhoneCount() > 1) {
-                        removeTile = true;
-                    }
-                } else if (id == R.id.msim_mobile_networks) {
-                    if (TelephonyManager.getDefault().getPhoneCount() <= 1) {
                         removeTile = true;
                     }
                 } else if (id == R.id.data_usage_settings) {
