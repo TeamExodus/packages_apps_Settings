@@ -29,19 +29,12 @@
         android:title="@string/button_navigation_title"
         android:summary="@string/button_navigation_summary" />
 
-    <!-- Buttons: temporary until i redo ours -->
-    <PreferenceScreen
-            android:id="@+id/button_settings"
-            android:title="@string/button_pref_title"
-            android:fragment="com.android.settings.ButtonSettings"
-            />
-<!--
     <PreferenceScreen
         android:id="@+id/button_settings"
-        android:fragment="com.android.settings.vanir.GeneralButtonSettings"
+        android:fragment="com.android.exodussettings.exodus.GeneralButtonSettings"
         android:title="@string/button_settings"
         android:summary="@string/button_settings_summary" />
--->
+
 
     <PreferenceScreen
             android:id="@+id/device_specific_gesture_settings"
