@@ -64,6 +64,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import com.android.internal.util.exodus.SettingsUtils;
+import static com.android.internal.util.exodus.SettingsUtils.*;
+
 public class SoundSettings extends SettingsPreferenceFragment implements Indexable {
     private static final String TAG = SoundSettings.class.getSimpleName();
 
@@ -163,6 +166,10 @@ public class SoundSettings extends SettingsPreferenceFragment implements Indexab
                 vibrate.removePreference(preference);
             }
         }
+
+        if (SettingsUtils.isMorphExodus(mContext.getContentResolver())) {
+			getPreferenceScreen().removePreference(vibrate);
+		}
 
         initRingtones(sounds);
         initIncreasingRing(sounds);
