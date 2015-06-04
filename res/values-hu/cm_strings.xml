@@ -220,7 +220,7 @@
   <string name="update_recovery_summary">Rendszerfrissítések telepítése közben frissítse a recovery-t</string>
   <string name="update_recovery_on_warning">FIGYELEM: Ha ezen funkció aktiválva van, a telepített recovery le lesz cserélve a jelenleg futó operációs rendszerének megfelelően.\n\nA recovery együtt lesz frissítve a rendszerrel, ezáltal biztosítva a kompatibilitást a jövőbeli verziókkal.\n\nBiztosan aktiválja a funkciót?</string>
   <string name="update_recovery_off_warning">FIGYELEM: Ha ez a funkció ki van kapcsolva, a telepített recovery nem le lesz cserélve a jelenleg futó operációs rendszerének megfelelően.\n\nAz újabb operációs rendszer frissítések lehet, hogy nem támogatják a régi recovery verziókat.\n\nBiztosan inaktiválja a funkciót?</string>
-  <string name="mod_version">CyanogenMod verzió</string>
+  <string name="mod_version">Exodus verzió</string>
   <string name="mod_version_default">Ismeretlen</string>
   <string name="device_model">Eszköz modellje</string>
   <string name="device_name">Eszköz neve</string>

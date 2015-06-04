@@ -220,7 +220,7 @@
   <string name="update_recovery_summary">Recovery bei System-Updates aktualisieren</string>
   <string name="update_recovery_on_warning">HINWEIS: Wenn diese Funktion aktiviert ist, wird Ihr installiertes Recovery-System durch das in der aktuellen Version des Betriebssystems ersetzt.\n\nIhr Recovery-System wird zusammen mit Updates des System aktualisiert werden, wodurch die Kompatibilität mit zukünftigen Versionen gewährleisten wird.\n\nWollen Sie diese Funktion aktivieren?</string>
   <string name="update_recovery_off_warning">ACHTUNG: Wenn diese Funktion deaktiviert ist, wird das installierte Recovery-System nicht gemeinsam mit dem Betriebssystems aktualisiert.\n\nZukünftige OS-Updates können möglicherweise nicht mit veralteten oder benutzerdefinierten Recovery-Versionen installieren werden.\n\nMöchten sie diese Funktion wirklich deaktivieren?</string>
-  <string name="mod_version">CyanogenMod-Version</string>
+  <string name="mod_version">Exodus-Version</string>
   <string name="mod_version_default">Unbekannt</string>
   <string name="device_model">Gerätemodell</string>
   <string name="device_name">Gerätename</string>

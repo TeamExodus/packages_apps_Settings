@@ -209,7 +209,7 @@
   <string name="update_recovery_title">Cyanogen-Recovery aktualiséieren</string>
   <string name="update_recovery_summary">De Recovery-Programm zesumme mam System aktualiséieren</string>
   <string name="update_recovery_off_warning">WARNUNG: Wann dës Funktioun deaktivéiert ass, gëtt däin installéierte Recovery-Programm net mat dengem System aktualiséiert.\n\nZukünfteg System-Aktualiséierunge loosse sech mat veraalten oder eegene Recovery-Programmer eventuell net installéierne.\n\nWëlls du dës Funktioun sécher deaktivéieren?</string>
-  <string name="mod_version">CyanogenMod-Versioun</string>
+  <string name="mod_version">Exodus-Versioun</string>
   <string name="mod_version_default">Onbekannt</string>
   <string name="device_model">Apparatmodell</string>
   <string name="device_name">Apparatnumm</string>

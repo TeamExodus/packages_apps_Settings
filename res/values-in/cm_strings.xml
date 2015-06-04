@@ -210,7 +210,7 @@
   <string name="update_recovery_summary">Perbarui recovery dengan pembaruan sistem</string>
   <string name="update_recovery_on_warning">PERHATIAN: Saat fitur ini diaktifkan, recovery yang terpasang akan digantikan oleh salah satu yang disertakan dengan versi terbaru dari OS yang berjalan.\n\nRecovery anda akan diperbarui bersama dengan pembaruan sistem anda, untuk membantu memastikan kompatibilitas dengan versi mendatang.\n\nApakah anda ingin mengaktifkan fitur ini?</string>
   <string name="update_recovery_off_warning">PERINGATAN: Bila fitur ini dinonaktifkan, recovery yang terpasang tidak akan diperbarui saat pembaruan OS.\n\nPembaruan OS mendatang mungkin tidak dapat dipasang dengan recovery lama atau versi recovery kustom.\n\nApakah Anda benar-benar ingin menonaktifkan fitur ini?</string>
-  <string name="mod_version">Versi CyanogenMod</string>
+  <string name="mod_version">Versi Exodus</string>
   <string name="mod_version_default">Tidak diketahui</string>
   <string name="build_date">Tanggal pembuatan</string>
   <string name="contributor_cloud_title">Kontributor</string>

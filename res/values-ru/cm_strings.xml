@@ -221,7 +221,7 @@
   <string name="update_recovery_summary">Перезаписывать раздел Recovery при установке обновлений</string>
   <string name="update_recovery_on_warning">Когда эта функция включена, установленная прошивка режима восстановления будет перезаписана той, которая соответствует текущей версии ОС.\n\nРежим восстановления будет обновляться вместе с обновлениями системы, обеспечивая совместимость с будущими версиями.\n\nВключить использование этой функции?</string>
   <string name="update_recovery_off_warning">Когда эта функция отключена, прошивка режима восстановления всегда будет оставаться неизменной.\n\nНекоторые обновления ОС могут не устанавливаться при использовании устаревших или пользовательских версий раздела Recovery.\n\nОтключить использование этой функции?</string>
-  <string name="mod_version">Версия CyanogenMod</string>
+  <string name="mod_version">Версия Exodus</string>
   <string name="mod_version_default">Неизвестно</string>
   <string name="device_model">Модель устройства</string>
   <string name="device_name">Имя устройства</string>
