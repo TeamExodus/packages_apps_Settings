@@ -2356,5 +2356,14 @@
         <activity android:name="com.android.exodussettings.exodus.navbar.NavbarTabHostFragment" />
         <activity android:name="com.android.exodussettings.exodus.buttons.ButtonsTabHost" />
 
+        <activity
+            android:name="com.android.exodussettings.SystemappRemover"
+            android:label="@string/sizer_title"
+            android:parentActivityName="Settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myfirstapp.MainActivity" />
+        </activity>
+
     </application>
 </manifest>
