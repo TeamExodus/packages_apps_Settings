@@ -16,6 +16,7 @@
 
 package com.android.settings.cyanogenmod;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.UserInfo;
@@ -34,8 +35,10 @@ import android.provider.Settings;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.internal.util.cm.PowerMenuConstants;
+import com.android.internal.util.exodus.SettingsUtils;
 
 import static com.android.internal.util.cm.PowerMenuConstants.*;
+import static com.android.internal.util.exodus.SettingsUtils.*;
 
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -94,7 +97,9 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
             } else if (action.equals(GLOBAL_ACTION_KEY_BUGREPORT)) {
                 mBugReportPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_BUGREPORT);
             } else if (action.equals(GLOBAL_ACTION_KEY_SILENT)) {
-                mSilentPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_SILENT);
+                if (SettingsUtils.CurrentMorphMode(getActivity().getContentResolver()) == MORPH_MODE_EXODUS) {
+                    mSilentPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_SILENT);
+                }
             }
         }
 
