@@ -1231,6 +1231,8 @@ public class SettingsActivity extends Activity
                         removeTile = true;
                     } else if (TelephonyManager.getDefault().getPhoneCount() > 1) {
                         removeTile = true;
+                    } else if (SystemProperties.getBoolean("ro.radio.noril", false)) {
+                        removeTile = true;
                     }
                 } else if (id == R.id.data_usage_settings) {
                     // Remove data usage when kernel module not enabled
