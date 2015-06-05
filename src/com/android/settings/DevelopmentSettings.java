@@ -65,6 +65,7 @@ import android.view.HardwareRenderer;
 import android.view.IWindowManager;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
+import android.view.WindowManagerGlobal;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -835,11 +836,25 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         Settings.Secure.putInt(getActivity().getContentResolver(),
                 Settings.Secure.KILL_APP_LONGPRESS_BACK,
                 mKillAppLongpressBack.isChecked() ? 1 : 0);
+        Settings.System.putInt(getActivity().getContentResolver(),
+                Settings.System.KEY_BACK_LONG_PRESS_ACTION,
+                mKillAppLongpressBack.isChecked() ? 9 : 0);
     }
 
     private void updateKillAppLongpressBackOptions() {
-        mKillAppLongpressBack.setChecked(Settings.Secure.getInt(
-            getActivity().getContentResolver(), Settings.Secure.KILL_APP_LONGPRESS_BACK, 0) != 0);
+	    mKillAppLongpressBack.setChecked(Settings.Secure.getInt(
+                getActivity().getContentResolver(), Settings.Secure.KILL_APP_LONGPRESS_BACK, 0) != 0);
+
+        boolean needsNavigationBar = false;
+        try {
+            IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
+            needsNavigationBar = wm.needsNavigationBar();
+        } catch (RemoteException e) {
+        }
+        if (needsNavigationBar) {
+			mKillAppLongpressBack.setSummary(R.string.kill_app_navbar_summary);
+			mKillAppLongpressBack.setEnabled(false);
+		}
     }
 
     private void updatePasswordSummary() {

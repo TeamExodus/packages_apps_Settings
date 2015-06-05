@@ -50,6 +50,9 @@
     <string name="morph_aosp">AOSP</string>
     <string name="morph_cm">CyanogenMod</string>
 
+    <!-- Old school longpress back to kill switch in dev settings -->
+    <string name="kill_app_navbar_summary">This device requires a navigation bar.  Set kill as a longpress target in navigation bar settings.</string>
+
     <!-- System app remover -->
     <string name="system_app_remover">System app remover</string>
     <string name="system_app_remover_summary">Remove unwanted bloat from the private system apps</string>
