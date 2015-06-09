@@ -2304,6 +2304,14 @@
                        android:resource="@id/lockscreen_settings" />
         </activity>
 
+        <!-- Extra info -->
+        <activity android:name="com.android.settings.vanir.extrainfo.MainActivity"
+                  android:theme="@android:style/Theme.Material.Light.Dialog.NoActionBar.MinWidth">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name=".search.SettingsSearchIndexablesProvider"
             android:authorities="com.android.settings"
