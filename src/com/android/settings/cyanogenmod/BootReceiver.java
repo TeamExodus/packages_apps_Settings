@@ -78,15 +78,16 @@ public class BootReceiver extends BroadcastReceiver {
         if (mExodusMode != MORPH_MODE_AOSP) {
             /* Restore the hardware tunable values */
             DisplaySettings.restore(ctx);
-            ButtonSettings.restoreKeyDisabler(ctx);
             DisplayGamma.restore(ctx);
             com.android.exodussettings.RomControls.restore(ctx);
             VibratorIntensity.restore(ctx);
             InputMethodAndLanguageSettings.restore(ctx);
         }
         if (mExodusMode == MORPH_MODE_EXODUS) {
-			HardwareSettings.restore(ctx);
-		}
+            HardwareSettings.restore(ctx);
+        } else if (mExodusMode == MORPH_MODE_CYANOGENMOD) {
+            ButtonSettings.restoreKeyDisabler(ctx);
+        }
     }
 
     private void initFreqCapFiles(Context ctx)

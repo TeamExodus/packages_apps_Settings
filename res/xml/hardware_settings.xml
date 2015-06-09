@@ -73,8 +73,7 @@
         <!-- Also vibrate for calls -->
         <CheckBoxPreference
                 android:key="vibrate_when_ringing"
-                android:title="@string/vibrate_when_ringing_title"
-                android:persistent="false" />
+                android:title="@string/vibrate_when_ringing_title" />
 
         <com.android.settings.hardware.VibratorIntensity
             android:key="vibration_intensity"
