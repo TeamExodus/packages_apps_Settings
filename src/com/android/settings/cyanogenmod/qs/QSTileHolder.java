@@ -173,6 +173,10 @@ public class QSTileHolder {
                 resourceName = "ic_qs_sync_on";
                 stringId = R.string.qs_tile_sync;
                 break;
+            case QSConstants.TILE_POWER_MENU: //#PowerMenuTile
+                resourceName = "ic_qs_powermenu";
+                stringId = R.string.quick_settings_power_menu_label;
+                break;
             default:
                 return null;
         }

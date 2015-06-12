@@ -104,4 +104,7 @@
     <string name="su_indicator">Superuser indicator</string>
     <string name="su_indicator_summary">Show superuser indicator on status bar when a session is active</string>
 
+    <!-- #PowerMenuTile -->
+    <string name="quick_settings_power_menu_label">Power menu</string>
+
 </resources>
