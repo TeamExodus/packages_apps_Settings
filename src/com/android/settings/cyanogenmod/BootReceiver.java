@@ -75,15 +75,16 @@ public class BootReceiver extends BroadcastReceiver {
         int mExodusMode = Settings.Exodus.getInt(ctx.getContentResolver(),
                 Settings.Exodus.MORPH_MODE, MORPH_MODE_EXODUS);
 
+        // Separate functionality per mode to keep each one more unique and prevent settings from restoring
+        // that you don't have access to.
         if (mExodusMode != MORPH_MODE_AOSP) {
-            /* Restore the hardware tunable values */
             DisplaySettings.restore(ctx);
             DisplayGamma.restore(ctx);
-            com.android.exodussettings.RomControls.restore(ctx);
             VibratorIntensity.restore(ctx);
             InputMethodAndLanguageSettings.restore(ctx);
         }
         if (mExodusMode == MORPH_MODE_EXODUS) {
+			com.android.exodussettings.RomControls.restore(ctx);
             HardwareSettings.restore(ctx);
         } else if (mExodusMode == MORPH_MODE_CYANOGENMOD) {
             ButtonSettings.restoreKeyDisabler(ctx);
