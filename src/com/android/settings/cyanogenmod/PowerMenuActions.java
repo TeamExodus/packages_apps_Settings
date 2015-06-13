@@ -51,6 +51,7 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
     private CheckBoxPreference mScreenshotPref;
     private CheckBoxPreference mProfilePref;
     private CheckBoxPreference mAirplanePref;
+    private CheckBoxPreference mMorphModePref; //MorphMode settings Checkbox
     private CheckBoxPreference mUsersPref;
     private CheckBoxPreference mSettingsPref;
     private CheckBoxPreference mLockdownPref;
@@ -88,6 +89,12 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
                 mProfilePref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_PROFILE);
             } else if (action.equals(GLOBAL_ACTION_KEY_AIRPLANE)) {
                 mAirplanePref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_AIRPLANE);
+            } else if (action.equals(GLOBAL_ACTION_KEY_MORPH_MODE)) { //#MorphMode Settings
+                mMorphModePref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_MORPH_MODE);
+                if (! SettingsUtils.isMorphExodus(mContext.getContentResolver()) ) {
+                    getPreferenceScreen().removePreference(mMorphModePref); // remove if we are not in EXODUS
+                    mMorphModePref = null;
+                }
             } else if (action.equals(GLOBAL_ACTION_KEY_USERS)) {
                 mUsersPref = (CheckBoxPreference) findPreference(GLOBAL_ACTION_KEY_USERS);
             } else if (action.equals(GLOBAL_ACTION_KEY_SETTINGS)) {
@@ -124,6 +131,10 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
 
         if (mAirplanePref != null) {
             mAirplanePref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_AIRPLANE));
+        }
+
+        if (mMorphModePref != null) {
+            mMorphModePref.setChecked(settingsArrayContains(GLOBAL_ACTION_KEY_MORPH_MODE));
         }
 
         if (mUsersPref != null) {
@@ -182,6 +193,10 @@ public class PowerMenuActions extends SettingsPreferenceFragment {
         } else if (preference == mAirplanePref) {
             value = mAirplanePref.isChecked();
             updateUserConfig(value, GLOBAL_ACTION_KEY_AIRPLANE);
+
+        } else if (preference == mMorphModePref) { //#MorphMode Settings
+            value = mMorphModePref.isChecked();
+            updateUserConfig(value, GLOBAL_ACTION_KEY_MORPH_MODE);
 
         } else if (preference == mUsersPref) {
             value = mUsersPref.isChecked();
