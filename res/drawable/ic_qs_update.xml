@@ -14,5 +14,5 @@
      limitations under the License.
 -->
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-        android:src="@drawable/ic_settings_sound"
+        android:src="@drawable/ic_qs_update_alpha"
         android:tint="@*android:color/material_deep_teal_500"/>
