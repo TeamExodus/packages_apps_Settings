@@ -19,6 +19,10 @@
     android:title="@string/aokp_animation_title"
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
 
+    <PreferenceCategory
+        android:key="apps_activities"
+        android:title="@string/apps_and_activities"/>
+
         <ListPreference
             android:key="activity_open"
             android:title="@string/activity_open_title" />
@@ -43,6 +47,10 @@
             android:key="task_move_to_back"
             android:title="@string/task_move_to_back_title" />
 
+    <PreferenceCategory
+        android:key="wallpaper_animations"
+        android:title="@string/wallpaper_animations" />
+
         <ListPreference
             android:key="wallpaper_open"
             android:title="@string/wallpaper_open_title" />
@@ -66,5 +74,11 @@
         <com.android.settings.exodus.fragments.AnimBarPreference
             android:key="animation_duration"
             android:title="@string/animation_duration_title" />
+
+    <Preference
+        style="?android:preferenceInformationStyle"
+        android:key="disclaimer"
+        android:summary="@string/disclaimer_summary"
+        android:icon="@drawable/ic_rom_control_animations" /> 
 
 </PreferenceScreen>

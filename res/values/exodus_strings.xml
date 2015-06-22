@@ -20,6 +20,12 @@
 
     <!-- generic -->
     <string name="ok">OK</string>
+    
+    <!-- Additional animation controls -->
+    <string name="animations_category">System animations</string>
+    <string name="apps_and_activities">Tasks and activities</string>
+    <string name="wallpaper_animations">Wallpaper animations</string>
+    <string name="disclaimer_summary">Note: wallpaper animations involve animations performed from the launcher. Wallpaper closing is for moving away from viewing the wallpaper such as opening an app.</string> 
 
     <!-- SuperSU -->
     <string name="supersu_title">SuperSU</string>
@@ -86,7 +92,7 @@
     <string name="notify_changed_networks_notification">Notification</string>
     <string name="notify_changed_networks_notification_sound">Notification with sound</string>
 
-	<!-- Network traffic -->
+    <!-- Network traffic -->
     <string name="network_traffic_title">Network traffic</string>
     <string name="show_network_traffic_state">Status bar traffic monitor</string>
     <string name="show_network_traffic_unit">Display unit</string>

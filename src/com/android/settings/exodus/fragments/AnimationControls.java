@@ -18,6 +18,8 @@
 package com.android.settings.exodus.fragments;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -68,7 +70,6 @@ public class AnimationControls extends SettingsPreferenceFragment implements OnP
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.aokp_animation_title);
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.aokp_animation_controls);
 
@@ -148,7 +149,7 @@ public class AnimationControls extends SettingsPreferenceFragment implements OnP
         mTaskOpenBehind.setEntries(mAnimationsStrings);
         mTaskOpenBehind.setEntryValues(mAnimationsNum);
 
-        int defaultDuration = Settings.System.getInt(mContentRes,
+        int defaultDuration = Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.ANIMATION_CONTROLS_DURATION, 0);
         mAnimationDuration = (AnimBarPreference) findPreference(ANIMATION_DURATION);
         mAnimationDuration.setInitValue((int) (defaultDuration));
@@ -165,51 +166,51 @@ public class AnimationControls extends SettingsPreferenceFragment implements OnP
         boolean result = false;
         if (preference == mActivityOpenPref) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[0], val);
         } else if (preference == mActivityClosePref) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[1], val);
         } else if (preference == mTaskOpenPref) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[2], val);
         } else if (preference == mTaskClosePref) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[3], val);
         } else if (preference == mTaskMoveToFrontPref) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[4], val);
         } else if (preference == mTaskMoveToBackPref) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[5], val);
         } else if (preference == mWallpaperOpen) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[6], val);
         } else if (preference == mWallpaperClose) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[7], val);
         } else if (preference == mWallpaperIntraOpen) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[8], val);
         } else if (preference == mWallpaperIntraClose) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[9], val);
         } else if (preference == mTaskOpenBehind) {
             int val = Integer.parseInt((String) newValue);
-            result = Settings.System.putInt(mContentRes,
+            result = Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[10], val);
         } else if (preference == mAnimationDuration) {
             int val = Integer.parseInt((String) newValue);
-            Settings.System.putInt(mContentRes,
+            Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ANIMATION_CONTROLS_DURATION, val);
         }
         preference.setSummary(getProperSummary(preference));
@@ -242,7 +243,7 @@ public class AnimationControls extends SettingsPreferenceFragment implements OnP
             mString = Settings.System.ACTIVITY_ANIMATION_CONTROLS[10];
         }
 
-        int mNum = Settings.System.getInt(mContentRes, mString, 0);
+        int mNum = Settings.System.getInt(getActivity().getContentResolver(), mString, 0);
         return mAnimationsStrings[mNum];
     }
 }
