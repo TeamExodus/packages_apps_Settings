@@ -35,7 +35,7 @@ import com.android.internal.util.aokp.AwesomeAnimationHelper;
 
 import java.util.Arrays;
 
-public class AnimationControls extends SettingsPreferenceFragment implements OnPreferenceChangeListener {
+public class Animations extends SettingsPreferenceFragment implements OnPreferenceChangeListener {
 
     private static final String ACTIVITY_OPEN = "activity_open";
     private static final String ACTIVITY_CLOSE = "activity_close";
