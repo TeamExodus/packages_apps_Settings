@@ -31,6 +31,10 @@
     <string name="supersu_title">SuperSU</string>
     <string name="supersu_summary">Super user binary options</string>
 
+    <!-- allow screen recorder -->
+    <string name="allow_screen_record_title">Allow screen recorder</string>
+    <string name="allow_screen_record_summary">Hold power and volume up at the same time to record</string>
+
     <!-- Exodus Updater -->
     <string name="exodusupdate_settings_title">Exodus updates</string>
     <string name="exodusupdate_settings_alternate_title">System updates</string>

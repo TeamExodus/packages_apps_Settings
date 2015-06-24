@@ -19,6 +19,12 @@
         xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
         android:title="@string/screen_recorder_title">
 
+    <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
+        android:key="chicken_sandwich"
+        android:title="@string/allow_screen_record_title"
+        android:summary="@string/allow_screen_record_summary"
+        android:defaultValue="true" />
+
     <SwitchPreference
         android:key="screen_recorder_record_audio"
         android:title="@string/screen_recorder_record_audio_title"
