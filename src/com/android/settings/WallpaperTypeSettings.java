@@ -40,6 +40,7 @@
             final PackageManager pm = getPackageManager();
             final List<ResolveInfo> rList = pm.queryIntentActivities(intent,
                     PackageManager.MATCH_DEFAULT_ONLY);
+            ArrayList<CharSequence> dupeChecker = new ArrayList<CharSequence>();
             final PreferenceScreen parent = getPreferenceScreen();
             parent.setOrderingAsAdded(false);
             // Add Preference items for each of the matching activities
@@ -50,6 +51,11 @@
                         info.activityInfo.packageName, info.activityInfo.name));
                 pref.setIntent(prefIntent);
                 CharSequence label = info.loadLabel(pm);
+                if (!dupeChecker.contains(label)) {
+					dupeChecker.add(label);
+				} else {
+					continue;
+				}
                 if (label == null) label = info.activityInfo.packageName;
                 pref.setTitle(label);
                 parent.addPreference(pref);
