@@ -25,12 +25,6 @@
         android:persistent="false" />
 
     <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
-        android:key="force_expanded_notifications"
-        android:title="@string/notification_force_expand_title"
-        android:summary="@string/notification_force_expand_summary"
-        android:defaultValue="false" />
-
-    <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
         android:key="status_bar_show_weather"
         android:title="@string/status_bar_show_weather_title"
         android:summary="@string/status_bar_show_weather_summary"
@@ -43,13 +37,6 @@
             android:key="qs_order"
             android:title="@string/qs_order_title"
             android:fragment="com.android.settings.cyanogenmod.qs.QSTiles" />
-
-        <com.android.settings.cyanogenmod.SecureSettingSwitchPreference
-            android:key="qs_use_four_columns"
-            android:title="@string/qs_four_columns_title"
-            android:summaryOn="@string/qs_four_columns_summary_on"
-            android:summaryOff="@string/qs_four_columns_summary_off"
-            android:defaultValue="false" />
 
         <com.android.settings.cyanogenmod.SecureSettingSwitchPreference
             android:key="sysui_qs_main_tiles"
@@ -68,6 +55,7 @@
             android:title="@string/qs_advanced_location_title"
             android:summary="@string/qs_advanced_location_summary"
             android:defaultValue="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
