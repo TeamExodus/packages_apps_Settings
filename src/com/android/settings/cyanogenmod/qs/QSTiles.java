@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.internal.util.cm.QSUtils;
+import com.android.internal.util.exodus.SettingsUtils;
 import com.android.settings.R;
 import com.android.settings.Utils;
 
@@ -86,9 +87,11 @@ public class QSTiles extends Fragment implements
 
         mDraggableGridView.setOnRearrangeListener(this);
         mDraggableGridView.setOnItemClickListener(this);
-        mDraggableGridView.setUseLargeFirstRow(Settings.Secure.getInt(resolver,
-                Settings.Secure.QS_USE_MAIN_TILES, 1) == 1);
-        mDraggableGridView.setColsCount(obtainQSColumnsCount(resolver));
+        if(!SettingsUtils.isMorphAosp(resolver)){
+            mDraggableGridView.setUseLargeFirstRow(Settings.Secure.getInt(resolver,
+                    Settings.Secure.QS_USE_MAIN_TILES, 1) == 1);
+            mDraggableGridView.setColsCount(obtainQSColumnsCount(resolver));
+        }
     }
 
     /**
@@ -97,7 +100,8 @@ public class QSTiles extends Fragment implements
     private int obtainQSColumnsCount(ContentResolver resolver){
         boolean shouldUseFourColumns = Settings.Secure.getInt(resolver,
                 Settings.Secure.QS_USE_FOUR_COLUMNS, 0) == 1;
-        return ( (shouldUseFourColumns) ? 4 : 3 );
+        boolean isExodusMode = SettingsUtils.isMorphExodus(resolver);
+        return ( (shouldUseFourColumns && isExodusMode) ? 4 : 3 );
     }
 
     @Override

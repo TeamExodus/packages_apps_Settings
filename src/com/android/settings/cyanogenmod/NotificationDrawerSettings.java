@@ -26,6 +26,7 @@ import android.preference.PreferenceScreen;
 import android.provider.Settings;
 
 import android.provider.SearchIndexableResource;
+import com.android.internal.util.exodus.SettingsUtils;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.cyanogenmod.qs.QSTiles;
@@ -45,7 +46,11 @@ public class NotificationDrawerSettings extends SettingsPreferenceFragment imple
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.notification_drawer_settings);
+        if( SettingsUtils.isMorphExodus(getActivity().getContentResolver()) ){
+            addPreferencesFromResource(R.xml.exodus_notification_drawer_settings);
+        } else {
+            addPreferencesFromResource(R.xml.notification_drawer_settings);
+        }
 
         mQSTiles = findPreference("qs_order");
     }
@@ -110,7 +115,12 @@ public class NotificationDrawerSettings extends SettingsPreferenceFragment imple
                             new ArrayList<SearchIndexableResource>();
 
                     SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.notification_drawer_settings;
+                    if( SettingsUtils.isMorphExodus(context.getContentResolver()) ){
+                        sir.xmlResId = R.xml.exodus_notification_drawer_settings;
+                    } else {
+                        sir.xmlResId = R.xml.notification_drawer_settings;
+                    }
+
                     result.add(sir);
 
                     return result;
