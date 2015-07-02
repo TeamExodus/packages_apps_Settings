@@ -117,7 +117,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
 			    break;
         }
 
-        setStringSummary(KEY_FIRMWARE_VERSION, Build.VERSION.RELEASE);
+        setStringSummary(KEY_FIRMWARE_VERSION, "Google " + Build.VERSION.RELEASE);
         findPreference(KEY_FIRMWARE_VERSION).setEnabled(true);
         setValueSummary(KEY_BASEBAND_VERSION, "gsm.version.baseband");
         setValueSummary(KEY_EQUIPMENT_ID, PROPERTY_EQUIPMENT_ID);
