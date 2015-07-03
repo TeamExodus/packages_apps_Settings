@@ -52,13 +52,6 @@
         android:summary="@string/fast_charge_summary"
         android:persistent="true" />
 
-    <Preference
-        android:key="performance_settings"
-        android:fragment="com.android.settings.cyanogenmod.PerformanceSettings"
-        android:title="@string/performance_settings_title"
-        android:icon="@drawable/ic_settings_performance"
-        settings:advanced="true" />
-
     <PreferenceCategory
         android:key="sensors_motors_category"
         android:title="@string/sensors_motors_title" >
