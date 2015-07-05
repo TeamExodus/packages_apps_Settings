@@ -60,6 +60,9 @@ public class BootReceiver extends BroadcastReceiver {
         if (mExodusMode == MORPH_MODE_EXODUS) {
 			com.android.exodussettings.RomControls.restore(ctx);
             HardwareSettings.restore(ctx);
+            // Reinstiating the Soft and hardsware button toggle.
+            ctx.sendBroadcast(new Intent(
+                            "exodus.android.settings.TOGGLE_NAVBAR_FOR_HARDKEYS"));
         } else if (mExodusMode == MORPH_MODE_CYANOGENMOD) {
             ButtonSettings.restoreKeyDisabler(ctx);
         }
