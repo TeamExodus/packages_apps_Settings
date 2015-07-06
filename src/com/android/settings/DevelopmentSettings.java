@@ -778,9 +778,14 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         resetVerifyAppsOverUsbOptions();
         resetDevelopmentShortcutOptions();
         resetUpdateRecoveryOptions();
-        writeAnimationScaleOption(0, mWindowAnimationScale, 0.75);
-        writeAnimationScaleOption(1, mTransitionAnimationScale, 0.75);
-        writeAnimationScaleOption(2, mAnimatorDurationScale, 0.75);
+
+        android.util.TypedValue outValue = new android.util.TypedValue();
+        getResources().getValue(R.dimen.default_window_anim_scale, outValue, true); //obj outValue copies.
+        writeAnimationScaleOption(0, mWindowAnimationScale, outValue.getFloat());
+        getResources().getValue(R.dimen.default_transition_anim_scale, outValue, true);
+        writeAnimationScaleOption(1, mTransitionAnimationScale, outValue.getFloat());
+        getResources().getValue(R.dimen.default_animator_duration_scale, outValue, true);
+        writeAnimationScaleOption(2, mAnimatorDurationScale, outValue.getFloat());
         // Only poke the color space setting if we control it.
         if (usingDevelopmentColorSpace()) {
             writeSimulateColorSpace(-1);
