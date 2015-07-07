@@ -17,7 +17,7 @@
 
     <!-- generic -->
     <string name="ok">OK</string>
-    
+
     <!-- Additional animation controls -->
     <string name="custom_animation_duration_title">Custom animation duration</string>
     <string name="animations_category">System animations</string>
@@ -177,4 +177,6 @@
     <!-- Animation Speed Header -->
     <string name="animation_speed_title">Animation speed</string>
 
+    <!-- Battery saver color -->
+    <string name="battery_saver_warning_color_title">Warning color style</string>
 </resources>
