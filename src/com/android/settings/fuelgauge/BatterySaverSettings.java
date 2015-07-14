@@ -160,6 +160,7 @@ public class BatterySaverSettings extends SettingsPreferenceFragment
                 removePreference(KEY_PER_APP_PROFILES);
                 mPerfProfilePref = null;
                 mPerAppProfiles = null;
+                mSwitchBar.show();
             } else if (mPerfProfilePref != null) {
                 mPerfProfilePref.setOrder(-1);
                 mPerfProfilePref.setEntries(mPerfProfileEntries);
