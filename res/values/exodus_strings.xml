@@ -182,4 +182,11 @@
 
     <!-- Nav Ring: More -->
     <string name="navigation_ring_disabled_message">Navigation ring is currently disabled.</string>
+
+    <!-- Brightness Sliders -->
+    <string name="brightness_adjustment_sliders_title">Brightness adjustment</string>
+    <string name="brightness_adjust_none">Disabled</string>
+    <string name="brightness_adjust_gesture">Status bar swipe</string>
+    <string name="brightness_adjust_quicksettings">Quicksettings slider</string>
+    <string name="brightness_adjust_both">Both</string>
 </resources>
