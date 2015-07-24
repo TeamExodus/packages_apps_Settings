@@ -39,6 +39,7 @@ import android.service.trust.TrustAgentService;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.android.internal.util.exodus.SettingsUtils;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.settings.ChooseLockSettingsHelper;
 import com.android.settings.ManageFingerprints;
@@ -78,6 +79,7 @@ public class LockScreenSettings extends SettingsPreferenceFragment
     private static final String KEY_MANAGE_TRUST_AGENTS = "manage_trust_agents";
     private static final String KEY_SHOW_VISUALIZER = "lockscreen_visualizer";
     private static final String KEY_MANAGE_FINGERPRINTS = "manage_fingerprints";
+    private static final String ALLOW_POWER_MENU_LOCK_SCREEN = "lockscreen_power_menu_allow";
 
     private static final int SET_OR_CHANGE_LOCK_METHOD_REQUEST = 123;
     private static final int CONFIRM_EXISTING_FOR_BIOMETRIC_WEAK_IMPROVE_REQUEST = 124;
@@ -100,13 +102,14 @@ public class LockScreenSettings extends SettingsPreferenceFragment
     private SwitchPreference mVisibleErrorPattern;
     private SwitchPreference mVisibleDots;
     private SwitchPreference mPowerButtonInstantlyLocks;
+    private SwitchPreference mPowerMenuLockScreen;
 
     private DevicePolicyManager mDPM;
 
     // These switch preferences need special handling since they're not all stored in Settings.
     private static final String SWITCH_PREFERENCE_KEYS[] = { KEY_LOCK_AFTER_TIMEOUT,
             KEY_LOCK_ENABLED, KEY_VISIBLE_PATTERN, KEY_VISIBLE_ERROR_PATTERN, KEY_VISIBLE_DOTS,
-            KEY_BIOMETRIC_WEAK_LIVELINESS, KEY_POWER_INSTANTLY_LOCKS };
+            KEY_BIOMETRIC_WEAK_LIVELINESS, KEY_POWER_INSTANTLY_LOCKS, ALLOW_POWER_MENU_LOCK_SCREEN };
 
 
     @Override
@@ -143,6 +146,11 @@ public class LockScreenSettings extends SettingsPreferenceFragment
         }
         if (mPowerButtonInstantlyLocks != null) {
             mPowerButtonInstantlyLocks.setChecked(lockPatternUtils.getPowerButtonInstantlyLocks());
+        }
+        if (mPowerMenuLockScreen != null) {
+            boolean shouldShowPowerMenuOnLS = Settings.Exodus.getIntForUser(getActivity().getContentResolver(),
+                    Settings.Exodus.LOCKSCREEN_POWER_MENU_ALLOW, 1, UserHandle.USER_CURRENT) != 0;
+            mPowerMenuLockScreen.setChecked(shouldShowPowerMenuOnLS);
         }
     }
 
@@ -233,6 +241,13 @@ public class LockScreenSettings extends SettingsPreferenceFragment
 
         PreferenceGroup generalCategory = (PreferenceGroup)
                 root.findPreference(KEY_GENERAL_CATEGORY);
+
+        //power menu on lock screen. #PowerMenuLockScreen
+        mPowerMenuLockScreen = (SwitchPreference) generalCategory.findPreference(ALLOW_POWER_MENU_LOCK_SCREEN);
+        if (!SettingsUtils.isMorphExodus(getActivity().getContentResolver())) {
+            generalCategory.removePreference(mPowerMenuLockScreen);
+        }
+
         // remove lockscreen visualizer option on low end gfx devices
         if (!ActivityManager.isHighEndGfx() && generalCategory != null) {
             SwitchPreference displayVisualizer = (SwitchPreference)
@@ -489,6 +504,10 @@ public class LockScreenSettings extends SettingsPreferenceFragment
         } else if (KEY_MANAGE_FINGERPRINTS.equals((key))) {
             Intent intent = ManageFingerprints.createIntent(getActivity(), false, true, true);
             startActivity(intent);
+        } else if (ALLOW_POWER_MENU_LOCK_SCREEN.equals((key))) {
+			boolean isChecked = ((SwitchPreference) preference).isChecked();
+                    Settings.Exodus.putIntForUser(getActivity().getContentResolver(),
+                    Settings.Exodus.LOCKSCREEN_POWER_MENU_ALLOW, (isChecked ? 1 : 0), UserHandle.USER_CURRENT);
         } else if (KEY_BIOMETRIC_WEAK_IMPROVE_MATCHING.equals(key)) {
             ChooseLockSettingsHelper helper =
                     new ChooseLockSettingsHelper(this.getActivity(), this);
@@ -633,6 +652,10 @@ public class LockScreenSettings extends SettingsPreferenceFragment
             if (!ActivityManager.isHighEndGfx()) {
                 keys.add(KEY_SHOW_VISUALIZER);
             }
+
+            if (SettingsUtils.isMorphExodus(context.getContentResolver())) {
+				keys.add(ALLOW_POWER_MENU_LOCK_SCREEN);
+			}
 
             return keys;
         }
