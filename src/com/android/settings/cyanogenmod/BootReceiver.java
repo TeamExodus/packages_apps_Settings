@@ -31,6 +31,7 @@ import com.android.settings.DisplaySettings;
 import com.android.settings.hardware.VibratorIntensity;
 import com.android.settings.inputmethod.InputMethodAndLanguageSettings;
 import com.android.settings.livedisplay.DisplayGamma;
+import com.android.settings.location.LocationSettings;
 
 import com.android.exodussettings.exodus.HardwareSettings;
 
@@ -66,5 +67,13 @@ public class BootReceiver extends BroadcastReceiver {
         } else if (mExodusMode == MORPH_MODE_CYANOGENMOD) {
             ButtonSettings.restoreKeyDisabler(ctx);
         }
+
+        /* Restore the hardware tunable values */
+        DisplaySettings.restore(ctx);
+        ButtonSettings.restoreKeyDisabler(ctx);
+        DisplayGamma.restore(ctx);
+        VibratorIntensity.restore(ctx);
+        InputMethodAndLanguageSettings.restore(ctx);
+        LocationSettings.restore(ctx);
     }
 }
