@@ -63,6 +63,7 @@ import android.widget.TextView;
 import cyanogenmod.app.Profile;
 import cyanogenmod.app.ProfileGroup;
 import cyanogenmod.app.ProfileManager;
+import cyanogenmod.profiles.LockSettings;
 
 import com.android.settings.R;
 import com.android.settings.SettingsActivity;
@@ -589,7 +590,7 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
 
         int defaultIndex = 0; // no action
         for (int i = 0; i < LOCKMODE_MAPPING.length; i++) {
-            if (LOCKMODE_MAPPING[i] == mProfile.getScreenLockMode()) {
+            if (LOCKMODE_MAPPING[i] == mProfile.getScreenLockMode().getValue()) {
                 defaultIndex = i;
                 break;
             }
@@ -600,7 +601,7 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
-                        mProfile.setScreenLockMode(LOCKMODE_MAPPING[item]);
+                        mProfile.setScreenLockMode(new LockSettings(LOCKMODE_MAPPING[item]));
                         updateProfile();
                         mAdapter.notifyDataSetChanged();
                         dialog.dismiss();
