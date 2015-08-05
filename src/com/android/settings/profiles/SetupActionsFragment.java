@@ -22,6 +22,7 @@ import cyanogenmod.profiles.BrightnessSettings;
 import cyanogenmod.profiles.ConnectionSettings;
 import android.app.Dialog;
 import android.app.NotificationGroup;
+import cyanogenmod.profiles.LockSettings;
 import cyanogenmod.profiles.RingModeSettings;
 import cyanogenmod.profiles.StreamSettings;
 import android.app.admin.DevicePolicyManager;
