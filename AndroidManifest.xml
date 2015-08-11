@@ -78,7 +78,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINGERPRINT_SERVICE" />
     <uses-permission android:name="com.cyngn.stats.SEND_ANALYTICS" />
 
-    <!-- Anti-piracy support -->
+    <!-- ContentGuard support -->
     <uses-permission android:name="android.permission.DELETE_PACKAGES"/>
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -2399,14 +2399,15 @@
             </intent-filter>
         </receiver>
 
-        <!-- Anti-piracy support -->
-        <service android:name="org.antipiracy.support.AntiPiracyNotifyService"
+        <!-- ContentGuard support -->
+        <service android:name="org.antipiracy.support.ContentGuardNotifyService"
             android:enabled="true"
+            android:exported="false"
             android:permission="android.permission.DELETE_PACKAGES" />
-        <receiver android:name="org.antipiracy.support.AntiPiracyInstallReceiver"
+        <receiver android:name="org.antipiracy.support.ContentGuardInstallReceiver"
             android:enabled="true"
             android:priority="1000"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
