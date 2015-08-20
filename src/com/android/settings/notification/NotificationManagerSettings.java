@@ -18,7 +18,6 @@ package com.android.settings.notification;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.hardware.CmHardwareManager;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.preference.PreferenceCategory;
@@ -34,6 +33,7 @@ import com.android.settings.search.Indexable;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class NotificationManagerSettings extends SettingsPreferenceFragment
         implements Indexable {
@@ -172,8 +172,6 @@ public class NotificationManagerSettings extends SettingsPreferenceFragment
                 public List<String> getNonIndexableKeys(Context context) {
                     ArrayList<String> result = new ArrayList<String>();
                     if (SettingsUtils.isMorphExodus(context.getContentResolver())) {
-                        CmHardwareManager cmHardwareManager =
-                            (CmHardwareManager) context.getSystemService(Context.CMHW_SERVICE);
                         if (!context.getResources().getBoolean(
                                 com.android.internal.R.bool.config_intrusiveNotificationLed)) {
                             result.add(KEY_NOTIFICATION_LIGHT);
