@@ -125,6 +125,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private SwitchPreference mAutoBrightnessPreference;
     private SwitchPreference mTapToWake;
     private SwitchPreference mWakeWhenPluggedOrUnplugged;
+    private SwitchPreference mProximityWakePreference;
 
     private CMHardwareManager mHardware;
 
@@ -223,12 +224,16 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             mTapToWake = null;
         }
 
-        Preference proximityWake = findPreference(KEY_PROXIMITY_WAKE);
+        mProximityWakePreference = (SwitchPreference) findPreference(KEY_PROXIMITY_WAKE);
         boolean proximityCheckOnWake = getResources().getBoolean(
                 com.android.internal.R.bool.config_proximityCheckOnWake);
-        if (displayPrefs != null && proximityWake != null && !proximityCheckOnWake) {
-            displayPrefs.removePreference(proximityWake);
-            Settings.System.putInt(getContentResolver(), Settings.System.PROXIMITY_ON_WAKE, 0);
+        if (mProximityWakePreference != null && proximityCheckOnWake) {
+            mProximityWakePreference.setOnPreferenceChangeListener(this);
+        } else {
+            if (displayPrefs != null && mProximityWakePreference != null) {
+                displayPrefs.removePreference(mProximityWakePreference);
+                Settings.System.putInt(getContentResolver(), Settings.System.PROXIMITY_ON_WAKE, 0);
+            }
         }
 
         mWakeWhenPluggedOrUnplugged =
@@ -581,6 +586,15 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             int value = Settings.Secure.getInt(getContentResolver(), DOZE_ENABLED, 1);
             mDozePreference.setChecked(value != 0);
         }
+
+        // Update proximity wake if it is available.
+        if (mProximityWakePreference != null) {
+            boolean defaultValue = getResources().getBoolean(
+                com.android.internal.R.bool.config_proximityCheckOnWakeEnabledByDefault);
+            boolean enabled = Settings.System.getInt(getContentResolver(),
+                    Settings.System.PROXIMITY_ON_WAKE, defaultValue ? 1 : 0) == 1;
+            mProximityWakePreference.setChecked(enabled);
+        }
     }
 
     private void updateScreenSaverSummary() {
@@ -750,6 +764,11 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         if (preference == mDozePreference) {
             boolean value = (Boolean) objValue;
             Settings.Secure.putInt(getContentResolver(), DOZE_ENABLED, value ? 1 : 0);
+        }
+        if (preference == mProximityWakePreference) {
+            boolean value = (Boolean) objValue;
+            Settings.System.putInt(getContentResolver(), Settings.System.PROXIMITY_ON_WAKE,
+                    value ? 1 : 0);
         }
         return true;
     }
