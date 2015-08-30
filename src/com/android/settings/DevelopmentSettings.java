@@ -514,6 +514,14 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         }
     }
 
+    private AnimationScalePreference findAndInitAnimationScalePreference(String key) {
+        AnimationScalePreference pref = (AnimationScalePreference) findPreference(key);
+        pref.setOnPreferenceChangeListener(this);
+        pref.setOnPreferenceClickListener(this);
+        mAllPrefs.add(pref);
+        return pref;
+    }
+
     private SwitchPreference findAndInitSwitchPref(String key) {
         SwitchPreference pref = (SwitchPreference) findPreference(key);
         if (pref == null) {
@@ -526,14 +534,6 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         }
         mAllPrefs.add(pref);
         mResetSwitchPrefs.add(pref);
-        return pref;
-    }
-
-    private AnimationScalePreference findAndInitAnimationScalePreference(String key) {
-        AnimationScalePreference pref = (AnimationScalePreference) findPreference(key);
-        pref.setOnPreferenceChangeListener(this);
-        pref.setOnPreferenceClickListener(this);
-        mAllPrefs.add(pref);
         return pref;
     }
 
