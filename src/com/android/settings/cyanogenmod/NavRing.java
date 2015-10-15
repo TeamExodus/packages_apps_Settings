@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import com.android.settings.R;
 import com.android.settings.SettingsActivity;
 import com.android.internal.util.cm.NavigationRingConstants;
 import com.android.internal.util.exodus.SettingsUtils;
+import cyanogenmod.providers.CMSettings;
 
 public class NavRing extends Fragment implements View.OnClickListener,
         BaseExodusSettingSwitchBar.SwitchBarChangeCallback {
@@ -145,8 +145,8 @@ public class NavRing extends Fragment implements View.OnClickListener,
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             for (int i = 0; i < 3; i++) {
-                                Settings.Secure.putString(getActivity().getContentResolver(),
-                                        Settings.Secure.NAVIGATION_RING_TARGETS[i], null);
+                                CMSettings.Secure.putString(getActivity().getContentResolver(),
+                                        CMSettings.Secure.NAVIGATION_RING_TARGETS[i], null);
                             }
                         }
                     })
