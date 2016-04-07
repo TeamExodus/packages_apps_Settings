@@ -171,4 +171,5 @@ public class Settings extends SettingsActivity {
     // Exodus additions
     public static class ExodusAndroidActivity extends SettingsActivity { /* empty */ }
     public static class ButtonsSettingsActivity extends SettingsActivity { /* empty */ }
+    public static class GesturesSettingsActivity extends SettingsActivity { /* empty */ }
 }
