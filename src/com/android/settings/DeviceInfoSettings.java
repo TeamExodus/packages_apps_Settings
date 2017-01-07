@@ -75,7 +75,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
     private static final String KEY_SAFETY_LEGAL = "safetylegal";
     private static final String KEY_MBN_VERSION = "mbn_version";
     private static final String PROPERTY_MBN_VERSION = "persist.mbn.version";
-    private static final String KEY_PA_VERSION = "pa_version";
+    private static final String KEY_EXODUS_VERSION = "exodus_version";
     private static final String KEY_QGP_VERSION = "qgp_version";
     private static final String PROPERTY_QGP_VERSION = "persist.qgp.version";
     private static final String MBN_VERSION_PATH = "/persist/speccfg/mbnversion";
@@ -147,7 +147,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         }
 
         findPreference(KEY_KERNEL_VERSION).setSummary(DeviceInfoUtils.getFormattedKernelVersion());
-        setValueSummary(KEY_PA_VERSION, "ro.pa.version");
+        setValueSummary(KEY_EXODUS_VERSION, "ro.exodus.version");
 
         if (!SELinux.isSELinuxEnabled()) {
             String status = getResources().getString(R.string.selinux_status_disabled);

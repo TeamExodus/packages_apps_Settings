@@ -97,10 +97,10 @@
         </PreferenceScreen>
 
         <!-- Device PA version -->
-        <Preference android:key="pa_version"
+        <Preference android:key="exodus_version"
                 style="?android:preferenceInformationStyle"
-                android:title="@string/pa_version"
-                android:summary="@string/pa_version_default" />
+                android:title="@string/exodus_version"
+                android:summary="@string/exodus_version_default" />
 
         <!-- Device FCC equipment id -->
         <com.android.settings.DividerPreference

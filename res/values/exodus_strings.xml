@@ -15,6 +15,15 @@
    limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-     <string name="pa_version">Versión de Paranoid Android</string>
-     <string name="pa_version_default">Desconocida</string>
+    <string name="exodus_version">Exodus Android version</string>
+    <string name="exodus_version_default">Unknown</string>
+
+    <string name="reset_all_settings">RESET ALL</string>
+    <string name="reset_selected_settings">RESET SELECTED</string>
+    <string name="reset_settings_title">Feature preferences</string>
+    <string name="reset_settings_summary">Reset Exodus Android feature preferences</string>
+    <string name="keywords_settings_reset">reset</string>
+
+    <string name="volbtn_music_controls_title">Playback control</string>
+    <string name="volbtn_music_controls_summary">When the screen is off, long pressing the volume keys will seek music tracks</string>
 </resources>
