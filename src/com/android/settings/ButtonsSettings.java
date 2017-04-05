@@ -26,7 +26,6 @@ import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings;
-import android.service.notification.ZenModeConfig;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference.OnPreferenceChangeListener;
@@ -48,7 +47,7 @@ import java.util.List;
 
 public class ButtonsSettings extends SettingsPreferenceFragment implements
         OnPreferenceChangeListener, Indexable {
-    private static final String TAG = "ButtonSettings";
+    private static final String TAG = "SystemSettings";
 
     private static final int KEY_MASK_HOME = 0x01;
     private static final int KEY_MASK_BACK = 0x02;
@@ -58,20 +57,22 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
     private static final int KEY_MASK_CAMERA = 0x20;
 
     private static final String KEY_NAVIGATION_BAR         = "navigation_bar";
+    private static final String KEY_SWAP_NAVIGATION_KEYS   = "swap_navigation_keys";
+    private static final String KEY_SWAP_SLIDER_ORDER      = "swap_slider_order";
     private static final String KEY_BUTTON_BRIGHTNESS      = "button_brightness";
 
-    private static final String KEY_HOME_LONG_PRESS        = "hardware_keys_home_long_press";
-    private static final String KEY_HOME_DOUBLE_TAP        = "hardware_keys_home_double_tap";
-    private static final String KEY_BACK_LONG_PRESS        = "hardware_keys_back_long_press";
-    private static final String KEY_BACK_DOUBLE_TAP        = "hardware_keys_back_double_tap";
-    private static final String KEY_MENU_LONG_PRESS        = "hardware_keys_menu_long_press";
-    private static final String KEY_MENU_DOUBLE_TAP        = "hardware_keys_menu_double_tap";
-    private static final String KEY_ASSIST_LONG_PRESS      = "hardware_keys_assist_long_press";
-    private static final String KEY_ASSIST_DOUBLE_TAP      = "hardware_keys_assist_double_tap";
-    private static final String KEY_APP_SWITCH_LONG_PRESS  = "hardware_keys_app_switch_long_press";
-    private static final String KEY_APP_SWITCH_DOUBLE_TAP  = "hardware_keys_app_switch_double_tap";
-    private static final String KEY_CAMERA_LONG_PRESS      = "hardware_keys_camera_long_press";
-    private static final String KEY_CAMERA_DOUBLE_TAP      = "hardware_keys_camera_double_tap";
+    private static final String KEY_HOME_LONG_PRESS        = "home_key_long_press";
+    private static final String KEY_HOME_DOUBLE_TAP        = "home_key_double_tap";
+    private static final String KEY_BACK_LONG_PRESS        = "back_key_long_press";
+    private static final String KEY_BACK_DOUBLE_TAP        = "back_key_double_tap";
+    private static final String KEY_MENU_LONG_PRESS        = "menu_key_long_press";
+    private static final String KEY_MENU_DOUBLE_TAP        = "menu_key_double_tap";
+    private static final String KEY_ASSIST_LONG_PRESS      = "assist_key_long_press";
+    private static final String KEY_ASSIST_DOUBLE_TAP      = "assist_key_double_tap";
+    private static final String KEY_APP_SWITCH_LONG_PRESS  = "app_switch_key_long_press";
+    private static final String KEY_APP_SWITCH_DOUBLE_TAP  = "app_switch_key_double_tap";
+    private static final String KEY_CAMERA_LONG_PRESS      = "camera_key_long_press";
+    private static final String KEY_CAMERA_DOUBLE_TAP      = "camera_key_double_tap";
 
     private static final String KEY_CATEGORY_HOME          = "home_key";
     private static final String KEY_CATEGORY_BACK          = "back_key";
@@ -85,6 +86,8 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
     private Handler mHandler;
 
     private int mDeviceHardwareKeys;
+
+    private boolean mHasAlertSlider = false;
 
     private ListPreference mHomeLongPressAction;
     private ListPreference mHomeDoubleTapAction;
@@ -100,6 +103,8 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
     private ListPreference mCameraDoubleTapAction;
 
     private SwitchPreference mNavigationBar;
+    private SwitchPreference mSwapNavigationkeys;
+    private SwitchPreference mSwapSliderOrder;
     private SwitchPreference mButtonBrightness;
 
     @Override
@@ -117,10 +122,36 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
         mDeviceHardwareKeys = res.getInteger(
                 com.android.internal.R.integer.config_deviceHardwareKeys);
 
+        mHasAlertSlider = res.getBoolean(com.android.internal.R.bool.config_hasAlertSlider)
+                && !TextUtils.isEmpty(res.getString(com.android.internal.R.string.alert_slider_state_path))
+                && !TextUtils.isEmpty(res.getString(com.android.internal.R.string.alert_slider_uevent_match_path));
+
         /* Navigation Bar */
         mNavigationBar = (SwitchPreference) findPreference(KEY_NAVIGATION_BAR);
         if (mNavigationBar != null) {
-            mNavigationBar.setOnPreferenceChangeListener(this);
+            if (mDeviceHardwareKeys != 0) {
+                mNavigationBar.setOnPreferenceChangeListener(this);
+            } else {
+                mNavigationBar = null;
+                removePreference(KEY_NAVIGATION_BAR);
+            }
+        }
+
+        /* Swap Navigation Keys */
+        mSwapNavigationkeys = (SwitchPreference) findPreference(KEY_SWAP_NAVIGATION_KEYS);
+        if (mSwapNavigationkeys != null) {
+            mSwapNavigationkeys.setOnPreferenceChangeListener(this);
+        }
+
+        /* Swap Slider order */
+        mSwapSliderOrder = (SwitchPreference) findPreference(KEY_SWAP_SLIDER_ORDER);
+        if (mSwapSliderOrder != null) {
+            if (mHasAlertSlider) {
+                mSwapSliderOrder.setOnPreferenceChangeListener(this);
+            } else {
+                mSwapSliderOrder = null;
+                removePreference(KEY_SWAP_SLIDER_ORDER);
+            }
         }
 
         /* Button Brightness */
@@ -136,112 +167,112 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
         }
 
         /* Home Key Long Press */
-        int defaultLongPressOnHardwareHomeBehavior = res.getInteger(
+        int defaultLongPressOnHomeKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_longPressOnHomeKeyBehavior);
-        int longPressOnHardwareHomeBehavior = Settings.System.getIntForUser(resolver,
+        int longPressOnHomeKeyBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.KEY_HOME_LONG_PRESS_ACTION,
-                    defaultLongPressOnHardwareHomeBehavior,
+                    defaultLongPressOnHomeKeyBehavior,
                     UserHandle.USER_CURRENT);
-        mHomeLongPressAction = initActionList(KEY_HOME_LONG_PRESS, longPressOnHardwareHomeBehavior);
+        mHomeLongPressAction = initActionList(KEY_HOME_LONG_PRESS, longPressOnHomeKeyBehavior);
 
         /* Home Key Double Tap */
-        int defaultDoubleTapOnHardwareHomeBehavior = res.getInteger(
+        int defaultDoubleTapOnHomeKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_doubleTapOnHomeKeyBehavior);
-        int doubleTapOnHardwareHomeBehavior = Settings.System.getIntForUser(resolver,
+        int doubleTapOnHomeKeyBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.KEY_HOME_DOUBLE_TAP_ACTION,
-                    defaultDoubleTapOnHardwareHomeBehavior,
+                    defaultDoubleTapOnHomeKeyBehavior,
                     UserHandle.USER_CURRENT);
-        mHomeDoubleTapAction = initActionList(KEY_HOME_DOUBLE_TAP, doubleTapOnHardwareHomeBehavior);
+        mHomeDoubleTapAction = initActionList(KEY_HOME_DOUBLE_TAP, doubleTapOnHomeKeyBehavior);
 
         /* Back Key Long Press */
-        int defaultLongPressOnHardwareBackBehavior = res.getInteger(
+        int defaultLongPressOnBackKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_longPressOnBackKeyBehavior);
-        int longPressOnHardwareBackBehavior = Settings.System.getIntForUser(resolver,
+        int longPressOnBackKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_BACK_LONG_PRESS_ACTION,
-                defaultLongPressOnHardwareBackBehavior,
+                defaultLongPressOnBackKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mBackLongPressAction = initActionList(KEY_BACK_LONG_PRESS, longPressOnHardwareBackBehavior);
+        mBackLongPressAction = initActionList(KEY_BACK_LONG_PRESS, longPressOnBackKeyBehavior);
 
         /* Back Key Double Tap */
-        int defaultDoubleTapOnHardwareBackBehavior = res.getInteger(
+        int defaultDoubleTapOnBackKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_doubleTapOnBackKeyBehavior);
-        int doubleTapOnHardwareBackBehavior = Settings.System.getIntForUser(resolver,
+        int doubleTapOnBackKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_BACK_DOUBLE_TAP_ACTION,
-                defaultDoubleTapOnHardwareBackBehavior,
+                defaultDoubleTapOnBackKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mBackDoubleTapAction = initActionList(KEY_BACK_DOUBLE_TAP, doubleTapOnHardwareBackBehavior);
+        mBackDoubleTapAction = initActionList(KEY_BACK_DOUBLE_TAP, doubleTapOnBackKeyBehavior);
 
         /* Menu Key Long Press */
-        int defaultLongPressOnHardwareMenuBehavior = res.getInteger(
+        int defaultLongPressOnMenuKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_longPressOnMenuKeyBehavior);
-        int longPressOnHardwareMenuBehavior = Settings.System.getIntForUser(resolver,
+        int longPressOnMenuKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_MENU_LONG_PRESS_ACTION,
-                defaultLongPressOnHardwareMenuBehavior,
+                defaultLongPressOnMenuKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mMenuLongPressAction = initActionList(KEY_MENU_LONG_PRESS, longPressOnHardwareMenuBehavior);
+        mMenuLongPressAction = initActionList(KEY_MENU_LONG_PRESS, longPressOnMenuKeyBehavior);
 
         /* Menu Key Double Tap */
-        int defaultDoubleTapOnHardwareMenuBehavior = res.getInteger(
+        int defaultDoubleTapOnMenuKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_doubleTapOnMenuKeyBehavior);
-        int doubleTapOnHardwareMenuBehavior = Settings.System.getIntForUser(resolver,
+        int doubleTapOnMenuKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_MENU_DOUBLE_TAP_ACTION,
-                defaultDoubleTapOnHardwareMenuBehavior,
+                defaultDoubleTapOnMenuKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mMenuDoubleTapAction = initActionList(KEY_MENU_DOUBLE_TAP, doubleTapOnHardwareMenuBehavior);
+        mMenuDoubleTapAction = initActionList(KEY_MENU_DOUBLE_TAP, doubleTapOnMenuKeyBehavior);
 
         /* Assist Key Long Press */
-        int defaultLongPressOnHardwareAssistBehavior = res.getInteger(
+        int defaultLongPressOnAssistKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_longPressOnAssistKeyBehavior);
-        int longPressOnHardwareAssistBehavior = Settings.System.getIntForUser(resolver,
+        int longPressOnAssistKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_ASSIST_LONG_PRESS_ACTION,
-                defaultLongPressOnHardwareAssistBehavior,
+                defaultLongPressOnAssistKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mAssistLongPressAction = initActionList(KEY_ASSIST_LONG_PRESS, longPressOnHardwareAssistBehavior);
+        mAssistLongPressAction = initActionList(KEY_ASSIST_LONG_PRESS, longPressOnAssistKeyBehavior);
 
         /* Assist Key Double Tap */
-        int defaultDoubleTapOnHardwareAssistBehavior = res.getInteger(
+        int defaultDoubleTapOnAssistKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_doubleTapOnAssistKeyBehavior);
-        int doubleTapOnHardwareAssistBehavior = Settings.System.getIntForUser(resolver,
+        int doubleTapOnAssistKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_ASSIST_DOUBLE_TAP_ACTION,
-                defaultDoubleTapOnHardwareAssistBehavior,
+                defaultDoubleTapOnAssistKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mAssistDoubleTapAction = initActionList(KEY_ASSIST_DOUBLE_TAP, doubleTapOnHardwareAssistBehavior);
+        mAssistDoubleTapAction = initActionList(KEY_ASSIST_DOUBLE_TAP, doubleTapOnAssistKeyBehavior);
 
         /* AppSwitch Key Long Press */
-        int defaultLongPressOnHardwareAppSwitchBehavior = res.getInteger(
+        int defaultLongPressOnAppSwitchKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_longPressOnAppSwitchKeyBehavior);
-        int longPressOnHardwareAppSwitchBehavior = Settings.System.getIntForUser(resolver,
+        int longPressOnAppSwitchKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_APP_SWITCH_LONG_PRESS_ACTION,
-                defaultLongPressOnHardwareAppSwitchBehavior,
+                defaultLongPressOnAppSwitchKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mAppSwitchLongPressAction = initActionList(KEY_APP_SWITCH_LONG_PRESS, longPressOnHardwareAppSwitchBehavior);
+        mAppSwitchLongPressAction = initActionList(KEY_APP_SWITCH_LONG_PRESS, longPressOnAppSwitchKeyBehavior);
 
         /* AppSwitch Key Double Tap */
-        int defaultDoubleTapOnHardwareAppSwitchBehavior = res.getInteger(
+        int defaultDoubleTapOnAppSwitchKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_doubleTapOnAppSwitchKeyBehavior);
-        int doubleTapOnHardwareAppSwitchBehavior = Settings.System.getIntForUser(resolver,
+        int doubleTapOnAppSwitchKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_APP_SWITCH_DOUBLE_TAP_ACTION,
-                defaultDoubleTapOnHardwareAppSwitchBehavior,
+                defaultDoubleTapOnAppSwitchKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mAppSwitchDoubleTapAction = initActionList(KEY_APP_SWITCH_DOUBLE_TAP, doubleTapOnHardwareAppSwitchBehavior);
+        mAppSwitchDoubleTapAction = initActionList(KEY_APP_SWITCH_DOUBLE_TAP, doubleTapOnAppSwitchKeyBehavior);
 
         /* Camera Key Long Press */
-        int defaultLongPressOnHardwareCameraBehavior = res.getInteger(
+        int defaultLongPressOnCameraKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_longPressOnCameraKeyBehavior);
-        int longPressOnHardwareCameraBehavior = Settings.System.getIntForUser(resolver,
+        int longPressOnCameraKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_CAMERA_LONG_PRESS_ACTION,
-                defaultLongPressOnHardwareCameraBehavior,
+                defaultLongPressOnCameraKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mCameraLongPressAction = initActionList(KEY_CAMERA_LONG_PRESS, longPressOnHardwareCameraBehavior);
+        mCameraLongPressAction = initActionList(KEY_CAMERA_LONG_PRESS, longPressOnCameraKeyBehavior);
 
         /* Camera Key Double Tap */
-        int defaultDoubleTapOnHardwareCameraBehavior = res.getInteger(
+        int defaultDoubleTapOnCameraKeyBehavior = res.getInteger(
                 com.android.internal.R.integer.config_doubleTapOnCameraKeyBehavior);
-        int doubleTapOnHardwareCameraBehavior = Settings.System.getIntForUser(resolver,
+        int doubleTapOnCameraKeyBehavior = Settings.System.getIntForUser(resolver,
                 Settings.System.KEY_CAMERA_DOUBLE_TAP_ACTION,
-                defaultDoubleTapOnHardwareCameraBehavior,
+                defaultDoubleTapOnCameraKeyBehavior,
                 UserHandle.USER_CURRENT);
-        mCameraDoubleTapAction = initActionList(KEY_CAMERA_DOUBLE_TAP, doubleTapOnHardwareCameraBehavior);
+        mCameraDoubleTapAction = initActionList(KEY_CAMERA_DOUBLE_TAP, doubleTapOnCameraKeyBehavior);
     }
 
     @Override
@@ -313,6 +344,10 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
             return EMPTY_STRING;
         } else if (preference == mNavigationBar) {
             return Settings.System.NAVIGATION_BAR_ENABLED;
+        } else if (preference == mSwapNavigationkeys) {
+            return Settings.System.SWAP_NAVIGATION_KEYS;
+        } else if (preference == mSwapSliderOrder) {
+            return Settings.System.ALERT_SLIDER_ORDER;
         } else if (preference == mButtonBrightness) {
             return Settings.System.BUTTON_BRIGHTNESS_ENABLED;
         } else if (preference == mHomeLongPressAction) {
@@ -346,22 +381,41 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
 
     private void reload() {
         final ContentResolver resolver = getActivity().getContentResolver();
+        final Resources res = getActivity().getResources();
 
-        final boolean hasHome = (mDeviceHardwareKeys & KEY_MASK_HOME) != 0;
+        final boolean defaultToNavigationBar = res.getBoolean(com.android.internal.R.bool.config_defaultToNavigationBar);
+        final boolean navigationBarEnabled = Settings.System.getIntForUser(resolver,
+                Settings.System.NAVIGATION_BAR_ENABLED, defaultToNavigationBar ? 1 : 0, UserHandle.USER_CURRENT) != 0;
+
+        final boolean hasHome = (mDeviceHardwareKeys & KEY_MASK_HOME) != 0 || navigationBarEnabled;
         final boolean hasMenu = (mDeviceHardwareKeys & KEY_MASK_MENU) != 0;
-        final boolean hasBack = (mDeviceHardwareKeys & KEY_MASK_BACK) != 0;
+        final boolean hasBack = (mDeviceHardwareKeys & KEY_MASK_BACK) != 0 || navigationBarEnabled;
         final boolean hasAssist = (mDeviceHardwareKeys & KEY_MASK_ASSIST) != 0;
-        final boolean hasAppSwitch = (mDeviceHardwareKeys & KEY_MASK_APP_SWITCH) != 0;
+        final boolean hasAppSwitch = (mDeviceHardwareKeys & KEY_MASK_APP_SWITCH) != 0 || navigationBarEnabled;
         final boolean hasCamera = (mDeviceHardwareKeys & KEY_MASK_CAMERA) != 0;
 
-        final boolean navigationBarEnabled = Settings.System.getIntForUser(resolver,
-                Settings.System.NAVIGATION_BAR_ENABLED, 0, UserHandle.USER_CURRENT) != 0;
+        final boolean swapNavigationkeysEnabled = Settings.System.getIntForUser(resolver,
+                Settings.System.SWAP_NAVIGATION_KEYS, 0, UserHandle.USER_CURRENT) != 0;
+
+        final boolean swapSliderOrderEnabled = Settings.System.getIntForUser(resolver,
+                Settings.System.ALERT_SLIDER_ORDER, 0, UserHandle.USER_CURRENT) != 0;
 
         final boolean buttonBrightnessEnabled = Settings.System.getIntForUser(resolver,
                 Settings.System.BUTTON_BRIGHTNESS_ENABLED, 1, UserHandle.USER_CURRENT) != 0;
 
         if (mNavigationBar != null) {
             mNavigationBar.setChecked(navigationBarEnabled);
+        }
+
+        if (mSwapNavigationkeys != null) {
+            mSwapNavigationkeys.setChecked(swapNavigationkeysEnabled);
+            // Disable when navigation bar is disabled and no hw back and recents available.
+            mSwapNavigationkeys.setEnabled(navigationBarEnabled
+                    || hasBack && hasAppSwitch);
+        }
+
+        if (mSwapSliderOrder != null) {
+            mSwapSliderOrder.setChecked(swapSliderOrderEnabled);
         }
 
         if (mButtonBrightness != null) {
@@ -394,39 +448,27 @@ public class ButtonsSettings extends SettingsPreferenceFragment implements
             prefScreen.removePreference(mButtonBrightness);
         }
 
-        if (hasHome && homeCategory != null) {
-            homeCategory.setEnabled(!navigationBarEnabled);
-        } else if (!hasHome && homeCategory != null) {
+        if (!hasHome && homeCategory != null) {
             prefScreen.removePreference(homeCategory);
         }
 
-        if (hasBack && backCategory != null) {
-            backCategory.setEnabled(!navigationBarEnabled);
-        } else if (!hasBack && backCategory != null) {
+        if (!hasBack && backCategory != null) {
             prefScreen.removePreference(backCategory);
         }
 
-        if (hasMenu && menuCategory != null) {
-            menuCategory.setEnabled(!navigationBarEnabled);
-        } else if (!hasMenu && menuCategory != null) {
+        if (!hasMenu && menuCategory != null) {
             prefScreen.removePreference(menuCategory);
         }
 
-        if (hasAssist && assistCategory != null) {
-            assistCategory.setEnabled(!navigationBarEnabled);
-        } else if (!hasAssist && assistCategory != null) {
+        if (!hasAssist && assistCategory != null) {
             prefScreen.removePreference(assistCategory);
         }
 
-        if (hasAppSwitch && appSwitchCategory != null) {
-            appSwitchCategory.setEnabled(!navigationBarEnabled);
-        } else if (!hasAppSwitch && appSwitchCategory != null) {
+        if (!hasAppSwitch && appSwitchCategory != null) {
             prefScreen.removePreference(appSwitchCategory);
         }
 
-        if (hasCamera && cameraCategory != null) {
-            cameraCategory.setEnabled(true /*!navigationBarEnabled*/);
-        } else if (!hasCamera && cameraCategory != null) {
+        if (!hasCamera && cameraCategory != null) {
             prefScreen.removePreference(cameraCategory);
         }
     }
