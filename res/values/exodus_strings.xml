@@ -15,7 +15,9 @@
    limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="exodus_version">Exodus Android version</string>
+    <string name="header_category_exodusandroid">Exodus android</string>
+    <string name="ExodusAndroid_title">System mods</string>
+    <string name="exodus_version">Exodus android version</string>
     <string name="exodus_version_default">Unknown</string>
 
     <string name="reset_all_settings">RESET ALL</string>

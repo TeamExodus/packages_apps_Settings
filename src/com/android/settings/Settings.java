@@ -168,6 +168,7 @@ public class Settings extends SettingsActivity {
     public static class PersonalSettings extends SettingsActivity { /* empty */ }
     public static class SystemSettings extends SettingsActivity { /* empty */ }
 
-    // Aospa additions
+    // Exodus additions
+    public static class ExodusAndroidActivity extends SettingsActivity { /* empty */ }
     public static class ButtonsSettingsActivity extends SettingsActivity { /* empty */ }
 }
