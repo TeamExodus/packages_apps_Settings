@@ -65,7 +65,7 @@ public final class SearchIndexableResources {
 
     public static int NO_DATA_RES_ID = 0;
 
-    private static HashMap<String, SearchIndexableResource> sResMap =
+    public static HashMap<String, SearchIndexableResource> sResMap =
             new HashMap<String, SearchIndexableResource>();
 
     static {
