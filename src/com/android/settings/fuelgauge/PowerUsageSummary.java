@@ -174,10 +174,6 @@ public class PowerUsageSummary extends PowerUsageBase {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        int selectedIcon = Settings.System.getInt(getActivity().getContentResolver(),
-                                    Settings.System.STATUS_BAR_BATTERY_STYLE, 0);
-        int selectedPercentage = Settings.System.getInt(getActivity().getContentResolver(),
-                                    Settings.System.STATUS_BAR_SHOW_BATTERY_PERCENT, 0);
         if (DEBUG) {
             menu.add(Menu.NONE, MENU_STATS_TYPE, Menu.NONE, R.string.menu_stats_total)
                     .setIcon(com.android.internal.R.drawable.ic_menu_info_details)
