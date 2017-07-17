@@ -235,19 +235,19 @@
         <ListPreference
             android:key="window_animation_scale"
             android:title="@string/window_animation_scale_title"
-            android:entries="@array/window_animation_scale_entries"
+            android:entries="@array/window_animation_scale_entries_exodus"
             android:entryValues="@array/window_animation_scale_values" />
 
         <ListPreference
             android:key="transition_animation_scale"
             android:title="@string/transition_animation_scale_title"
-            android:entries="@array/transition_animation_scale_entries"
+            android:entries="@array/transition_animation_scale_entries_exodus"
             android:entryValues="@array/transition_animation_scale_values" />
 
         <ListPreference
             android:key="animator_duration_scale"
             android:title="@string/animator_duration_scale_title"
-            android:entries="@array/animator_duration_scale_entries"
+            android:entries="@array/animator_duration_scale_entries_exodus"
             android:entryValues="@array/animator_duration_scale_values" />
 
         <ListPreference
