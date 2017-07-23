@@ -22,7 +22,6 @@ import com.android.settings.DateTimeSettings;
 import com.android.settings.DevelopmentSettings;
 import com.android.settings.DeviceInfoSettings;
 import com.android.settings.DisplaySettings;
-import com.android.settings.GesturesSettings;
 import com.android.settings.LegalSettings;
 import com.android.settings.PrivacySettings;
 import com.android.settings.R;
@@ -329,12 +328,6 @@ public final class SearchIndexableResources extends com.exodus.utils.search.Exod
                         ZenModeVisualInterruptionSettings.class.getName(),
                         R.drawable.ic_settings_notifications));
 
-        sResMap.put(GesturesSettings.class.getName(),
-                new SearchIndexableResource(
-                        Ranking.getRankForClassName(GesturesSettings.class.getName()),
-                        R.xml.gestures_settings,
-                        GesturesSettings.class.getName(),
-                        R.drawable.ic_settings_offscreen_gestures));
     }
 
     private SearchIndexableResources() {
